@@ -20,3 +20,48 @@ a:hover
 {
     color: #ff0000;
 }
+
+
+.shadow {
+    box-shadow: 0 0 8px 5px rgba(60, 150, 150, 0.1);
+}
+.shadow-top {
+    clip-path: polygon(0% -20%, 100% -20%, 100% 100%, 0% 100%);
+}
+.shadow-right {
+    clip-path: polygon(0% 0%, 120% 0%, 120% 100%, 0% 100%);
+}
+.shadow-bottom {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 120%, 0% 120%);
+}
+.shadow-left {
+    clip-path: polygon(-20% 0%, 100% 0%, 100% 100%, -20% 100%);
+}
+.nav-border
+{
+    border-bottom: 1px solid #ffc000;
+}
+.mango
+{
+    color: #ffc000;
+}
+.torquese
+{
+    color: #338484;
+}
+.nav-link:hover
+{
+    color: #338484;
+}
+  
+  /* layout for example */
+.box {
+    display: inline-block;
+    vertical-align: top;
+    background: #338484;
+    color: #fff;
+    width: 4em;
+    height: 2em;
+    margin: 1em;
+    padding: 1em;
+}
