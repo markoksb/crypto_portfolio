@@ -1,0 +1,13 @@
+name: crypto-portfolio
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.12  # Specify the Python version (you can adjust this to match your project requirements)
+  - flask==2.0.1  # Install Flask and specify a specific version
+  - flask-sqlalchemy==2.5.1  # Install SQLAlchemy for SQL interactions
+  - flask-session==0.3.0  # Install session management library
+  - pip:
+    - cryptography  # Required by Flask-SQLAlchemy (for database encryption)
