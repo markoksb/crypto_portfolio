@@ -1,17 +1,11 @@
-from flask import Flask, render_template, url_for, request, redirect, session
-from flask_session import Session
+from flask import Flask, render_template, request, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
-from werkzeug.security import check_password_hash, generate_password_hash
-from sqlalchemy import create_engine
 
 from error import apology
-
-engine = create_engine("sqlite:///portfolio.db", echo=True)
-db = engine.connect()
+import cs50
 
 app = Flask(__name__)
+db = cs50.SQL("sqlite:///portfolio.db")
 
 def logout():
     """Log user out"""
@@ -30,10 +24,6 @@ def login():
 
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-        if request.form.get("username") == "markob":
-            session["user_id"] = 1
-            return redirect("/")
-
         # Ensure username was submitted
         if not request.form.get("username"):
             return apology("must provide username", 403)
@@ -43,13 +33,13 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
-        rows = db.execute(
-            "SELECT * FROM users WHERE username = ?", request.form.get("username")
-        )
+        rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
+        if rows is None:
+            return apology("Invalid username and/or password")
         if len(rows) != 1 or not check_password_hash(
-            rows[0]["hash"], request.form.get("password")
+            rows[0]["password_hash"], request.form.get("password")
         ):
             return apology("invalid username and/or password", 403)
 
@@ -75,7 +65,7 @@ def register():
             return apology("must provide username", 400)
         else:
             namequery = db.execute("SELECT * FROM users WHERE username = ?", username)
-            if len(namequery) > 0:
+            if len(namequery) >= 1:
                 return apology("username already exists", 400)
 
         # Ensure password was submitted
@@ -88,7 +78,7 @@ def register():
                 return apology("passwords must match", 400)
             else:
                 # do some magic
-                db.execute("INSERT INTO users (username, hash) VALUES (?, ?)", username,
+                db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", username,
                            generate_password_hash(request.form.get("password")))
                 return redirect("/")
 
