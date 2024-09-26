@@ -38,6 +38,14 @@ def login():
 def logout():
     return users.logout()
 
+@app.route("/crypto")
+def crypto():
+    return render_template("index.html")
+
+@app.route("/portfolio")
+def portfolio():
+    return render_template("index.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
 
