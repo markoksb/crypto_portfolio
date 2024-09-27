@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+- Test
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+    <br>
+    <table>
+        <thead>
+            <th style="width: 225px;">symbol</th>
+            <th style="width: 125px;">low</th>
+            <th style="width: 125px;">high</th>
+            <th style="width: 125px;">last</th>
+            <th style="width: 125px;">% change</th>
+            <!-- //<th>volume</th>-->
+        </thead>
+        <tbody>
+        {% for item in tickers %}
+            <tr>
+                <td>{{ item.symbol }}</td>
+                <td>{{ item.lowPrice24h }}</td>
+                <td>{{ item.highPrice24h }}</td>
+                <td>{{ item.lastPrice }}</td>
+                <td>{{ (item.price24hPcnt | float * 100) | round(3) }}</td>
+                <!-- //<td>{{ item.volume24h | float | round }}</td>-->
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
-import users, error
+import users, error, bybit
 
 app = Flask(__name__)
 
@@ -40,7 +40,10 @@ def logout():
 
 @app.route("/crypto")
 def crypto():
-    return render_template("index.html")
+    s_time_in_seconds = bybit.get_server_time_in_seconds()
+    #bybit.get_kline("spot", "BTCUSDT", 60)
+    tickers = bybit.get_tickers("linear")
+    return render_template("cryptos.html", tickers=tickers)
 
 @app.route("/portfolio")
 def portfolio():
