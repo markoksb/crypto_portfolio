@@ -22,5 +22,5 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
 
-    return render_template("error.html", bottom=escape(message))
+    return render_template("error.html", top=code, bottom=escape(message)), code
 
