@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import render_template, request, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from error import apology
 import cs50
 
-app = Flask(__name__)
 db = cs50.SQL("sqlite:///portfolio.db")
 
 def logout():

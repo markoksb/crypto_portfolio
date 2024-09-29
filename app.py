@@ -13,6 +13,10 @@ app.config["SESSION_COOKIE_NAME"] = "cportfolio"
 app.session_cookie_name = "cportfolio"
 Session(app)
 
+app.add_url_rule("/register", view_func=users.register, methods=["GET", "POST"])
+app.add_url_rule("/login", view_func=users.login, methods=["GET", "POST"])
+app.add_url_rule("/logout", view_func=users.logout)
+
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -21,28 +25,15 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    return users.register()
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    return users.login()
-    
-@app.route("/logout")
-def logout():
-    return users.logout()
 
 @app.route("/crypto")
 def crypto():
     s_time_in_seconds = bybit.get_server_time_in_seconds()
     #bybit.get_kline("spot", "BTCUSDT", 60)
-    tickers = bybit.get_tickers("linear")
+    tickers = bybit.get_tickers("spot")
     return render_template("cryptos.html", tickers=tickers)
 
 @app.route("/portfolio")

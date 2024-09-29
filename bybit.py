@@ -38,7 +38,6 @@ def get_tickers(category, symbol = None, baseCoin = None, expDate = None):
         ret = []
         for elem in resp["result"]["list"]:
             if elem["volume24h"] != '0':
-                print(elem)
                 ret.append(elem)
         return ret
         #return resp["result"]["list"]
