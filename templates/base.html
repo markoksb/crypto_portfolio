@@ -19,8 +19,11 @@
             <div class="container-fluid">
                 <div class="collapse navbar-collapse" id="navbar">
                         <ul class="navbar-nav me-auto mt-2">
-                            <li class="nav-item"><a class="nav-link mango" href="/crypto">currencies</a></li>                        
+                            <li class="nav-item"><a class="nav-link mango" href="/currencies">currencies</a></li>
+                    {% if session["user_id"] %}
                             <li class="nav-item"><a class="nav-link mango" href="/portfolio">portfolio</a></li>
+                            <li class="nav-item"><a class="nav-link mango" href="/refresh">refresh</a></li>
+                    {% endif %}
                         </ul>
                     {% if session["user_id"] %}
                         <ul class="navbar-nav ms-auto mt-2">
