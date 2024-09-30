@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
-import users, error, bybit
+import users, currencies
 
 app = Flask(__name__)
 
@@ -16,6 +16,7 @@ Session(app)
 app.add_url_rule("/register", view_func=users.register, methods=["GET", "POST"])
 app.add_url_rule("/login", view_func=users.login, methods=["GET", "POST"])
 app.add_url_rule("/logout", view_func=users.logout)
+app.add_url_rule("/currencies", view_func=currencies.overview)
 
 @app.after_request
 def after_request(response):
@@ -25,22 +26,17 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
+
 @app.route("/")
 def index():
-    return redirect("/crypto")
+    return redirect("/currencies")
     #return render_template("index.html")
 
-@app.route("/crypto")
-def crypto():
-    s_time_in_seconds = bybit.get_server_time_in_seconds()
-    #bybit.get_kline("spot", "BTCUSDT", 60)
-    tickers = bybit.get_tickers("spot")
-    return render_template("cryptos.html", tickers=tickers)
 
 @app.route("/portfolio")
 def portfolio():
     return render_template("index.html")
 
+
 if __name__ == "__main__":
     app.run(debug=True)
-
