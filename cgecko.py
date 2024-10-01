@@ -18,6 +18,7 @@ def request(endpoint:str):
     response.close()
     return response
 
+
 def test():
     endpoint = "coins/list"
     return request(endpoint=endpoint).json()
