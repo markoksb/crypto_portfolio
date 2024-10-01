@@ -31,7 +31,7 @@ def overview():
     #bybit.get_kline("spot", "BTCUSDT", 60)
     #tickers = bybit.get_tickers("spot")
     coin_list = cgecko.get_coin_list_w_market_data()
-    for coin in coin_list:
-        print(f"coin: {coin}")
+    #for coin in coin_list:
+        #print(f"coin: {coin}")
         #print(f"id: {coin['id']} - symbol: {coin['symbol']} - name: {coin['name']} - platform: {coin['platforms']}")
     return render_template("currencies.html", coins=coin_list)
