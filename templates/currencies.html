@@ -24,7 +24,7 @@
                 {% for coin in coins %}
             <tr>
                 <td><img src="{{ coin.image }}" width="15" height="15"></td>
-                <td style="text-align: left;">{{ coin.name }} ( {{ coin.symbol }} )</td>
+                <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                 <td>{{ coin.current_price }}</td>
                 {% if coin.price_change_percentage_24h >= 0 %}
                 <td style="text-align: right; color: green">{{ (coin.price_change_percentage_24h | float) | round(2) }}%</td>
