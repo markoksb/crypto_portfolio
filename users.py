@@ -37,9 +37,7 @@ def login():
         # Ensure username exists and password is correct
         if rows is None:
             return apology("Invalid username and/or password")
-        if len(rows) != 1 or not check_password_hash(
-            rows[0]["password_hash"], request.form.get("password")
-        ):
+        if len(rows) != 1 or not check_password_hash( rows[0]["password_hash"], request.form.get("password") ):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
@@ -77,7 +75,8 @@ def register():
                 return apology("passwords must match", 400)
             else:
                 # do some magic
-                db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)", username,
+                db.execute("INSERT INTO users (username, password_hash) VALUES (?, ?)",
+                           username,
                            generate_password_hash(request.form.get("password")))
                 return redirect("/")
 
