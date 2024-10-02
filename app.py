@@ -29,14 +29,8 @@ def after_request(response):
 
 @app.route("/")
 def index():
-    #return redirect("/currencies")
-    return render_template("index.html")
-
-
-@app.route("/refresh")
-def refresh():
-    currencies.update_currency_db()
     return redirect("/currencies")
+    #return render_template("index.html")
 
 
 @app.route("/portfolio")
