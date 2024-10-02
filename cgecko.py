@@ -19,11 +19,6 @@ def request(endpoint:str):
     return response
 
 
-def test():
-    endpoint = "coins/list"
-    return request(endpoint=endpoint).json()
-
-
 def get_coin_list():
     endpoint = "coins/list"
     return request(endpoint=endpoint).json()
