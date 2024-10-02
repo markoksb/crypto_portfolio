@@ -20,36 +20,36 @@
             <th style="width: 75px;">24h</th>
             <th style="width: 75px;">7d</th>
             <th style="width: 75px;">30d</th>
-            <th style="width: 125px;">market cap</th>
+            <th style="width: 150px;">market cap</th>
         </thead>
         <tbody>
             {% if coins %}
                 {% for coin in coins %}
-            <tr>
-                <td><img src="{{ coin.image }}" width="15" height="15"></td>
+            <tr style="height: 30px;">
+                <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
                 <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                 <td>{{ coin.current_price }}</td>
-                {% if coin.price_change_percentage_1h_in_currency >= 0 %}
-                   <td style="text-align: right; color: green">{{ (coin.price_change_percentage_1h_in_currency | float) | round(2) }}%</td>
+                {% if coin.price_change_percent_1h >= 0 %}
+                   <td style="text-align: right; color: green">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
                 {% else %}
-                  <td style="text-align: right; color: red">{{ (coin.price_change_percentage_1h_in_currency | float) | round(2) }}%</td>
+                  <td style="text-align: right; color: red">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
                 {% endif %}
-                {% if coin.price_change_percentage_24h >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percentage_24h | float) | round(2) }}%</td>
+                {% if coin.price_change_percent_24h >= 0 %}
+                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
                 {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percentage_24h | float) | round(2) }}%</td>
+                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
                 {% endif %}
-                {% if coin.price_change_percentage_7d_in_currency >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percentage_7d_in_currency | float) | round(2) }}%</td>
+                {% if coin.price_change_percent_7d >= 0 %}
+                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
                 {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percentage_7d_in_currency | float) | round(2) }}%</td>
+                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
                 {% endif %}
-                {% if coin.price_change_percentage_30d_in_currency >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percentage_30d_in_currency | float) | round(2) }}%</td>
+                {% if coin.price_change_percent_30d >= 0 %}
+                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
                 {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percentage_30d_in_currency | float) | round(2) }}%</td>
+                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
                 {% endif %}
-                <td style="text-align: right;">{{ coin.market_cap }}</td>
+                <td style="text-align: right;">{{ "{:0,}".format(coin.market_cap) }}</td>
             </tr>
                 {% endfor %}
             {% else %}
