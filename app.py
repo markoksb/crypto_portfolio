@@ -29,12 +29,13 @@ def after_request(response):
 
 @app.route("/")
 def index():
+    """Home route"""
     return redirect("/currencies")
-    #return render_template("index.html")
 
 
 @app.route("/portfolio")
 def portfolio():
+    """Portfolio View (TODO)"""
     return render_template("index.html")
 
 

@@ -8,14 +8,17 @@ import cs50
 db = cs50.SQL("sqlite:///portfolio.db")
 
 def get_coinlist_from_db():
+    """returns all the currencies"""
     return db.execute("SELECT * FROM currencies")
 
 
-def get_coin_from_db(coin_cgid):
+def get_coin_from_db(coin_cgid:str):
+    """returns a currency based on coingecko id"""
     return db.execute("SELECT * FROM currencies WHERE cgid = ?", coin_cgid)
 
 
 def update_coin_in_db(coin_id_csv) -> None:
+    """update all the coins by coingecko id"""
     coins = cgecko.get_coin_update(coin_id_csv)
     for coin in coins:
         db.execute("UPDATE currencies SET current_price = ?, market_cap = ?, high_24h = ?, low_24h = ?, ath = ?, ath_date = ?, atl = ?, atl_date = ?, cg_update_date = ?, price_change_percent_1h = ?, price_change_percent_24h = ?, price_change_percent_7d = ?, price_change_percent_30d = ?, update_date = ? WHERE cgid = ?",
@@ -45,9 +48,13 @@ def update_currency_db() -> None:
 
 
 def overview():
-                    #s_time_in_seconds = bybit.get_server_time_in_seconds()
-                    #bybit.get_kline("spot", "BTCUSDT", 60)
-                    #tickers = bybit.get_tickers("spot")
+    """
+        Main function for the currencies view.\n
+        Read data from DB.\n
+        Should the data not exist or is outdated, update the DB.\n
+        Render the html with the coin data.
+    """
+    
     # get coins from the database
     coin_list = get_coinlist_from_db()
     # TODO: this is kinda nonsense but we need it if the DB is empty/reset or w/e
