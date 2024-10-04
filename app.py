@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, session
 from flask_session import Session
 
-import users, currencies
+import users, currencies, portfolio
 
 app = Flask(__name__)
 
@@ -17,6 +17,7 @@ app.add_url_rule("/register", view_func=users.register, methods=["GET", "POST"])
 app.add_url_rule("/login", view_func=users.login, methods=["GET", "POST"])
 app.add_url_rule("/logout", view_func=users.logout)
 app.add_url_rule("/currencies", view_func=currencies.overview)
+app.add_url_rule("/portfolio", view_func=portfolio.portfolio)
 
 @app.after_request
 def after_request(response):
@@ -31,12 +32,6 @@ def after_request(response):
 def index():
     """Home route"""
     return redirect("/currencies")
-
-
-@app.route("/portfolio")
-def portfolio():
-    """Portfolio View (TODO)"""
-    return render_template("index.html")
 
 
 if __name__ == "__main__":
