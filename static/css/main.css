@@ -53,6 +53,10 @@ a:hover
 {
     color: #338484;
 }
+.no-underline
+{
+    text-decoration: none;
+}
   
   /* layout for example */
 .box {
