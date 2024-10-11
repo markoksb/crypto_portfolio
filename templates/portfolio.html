@@ -2,7 +2,7 @@
 
 
 {% block title %}
-- Test
+- Portfolios
 {% endblock %}
 
 {% block head %}
@@ -10,7 +10,25 @@
 {% endblock %}
 
 {% block body %}
+{% if session["user_id"] %}
+<nav class="navbar navbar-expand-md navbar-light">
+   
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav me-auto mt-2 text-nowrap">
+                    <li class="nav-item"><a class="nav-link mango" href="/create_portfolio">new</a></li>
+                    {% for portfolio in portfolios %}
+                    <li class="nav-item text-nowrap">
+                        <div class="nav-link">
+                        <a class="no-underline mango" href="/portfolio?id={{ portfolio.id }}">{{ portfolio.name }}</a>
+                        <a href="/delete_portfolio?id={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+        </div>
+    </div>
+</nav>
 
-
-
+{% endif %}
 {% endblock %}

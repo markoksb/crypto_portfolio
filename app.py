@@ -18,6 +18,8 @@ app.add_url_rule("/login", view_func=users.login, methods=["GET", "POST"])
 app.add_url_rule("/logout", view_func=users.logout)
 app.add_url_rule("/currencies", view_func=currencies.overview)
 app.add_url_rule("/portfolio", view_func=portfolio.portfolio)
+app.add_url_rule("/create_portfolio", view_func=portfolio.create, methods=["GET", "POST"])
+app.add_url_rule("/delete_portfolio", view_func=portfolio.delete)
 
 @app.after_request
 def after_request(response):
@@ -35,4 +37,4 @@ def index():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=8080)
