@@ -41,7 +41,7 @@ def create():
     """
     if request.method == "POST":
         portfolio_id = db.execute("INSERT INTO portfolios (user_id, name) VALUES (?, ?)", session["user_id"], request.form.get("name"))
-        return redirect(f"/portfolio?id={portfolio_id}")
+        return redirect(f"/portfolio?pid={portfolio_id}")
     
     return render_template("portfolio_new.html")
 
@@ -60,17 +60,19 @@ def portfolio():
     """
         
     """
+    currencies.update_coin_values_and_return()
     coinlist = []
     exists = False
     if session["user_id"] == None:
         return apology("You're not logged in.", 400)
     portfolio_id = request.args.get("pid")
-    if portfolio_id == None:
-        pass
     portfolios = get_users_portfolios(session["user_id"])
-    if portfolios == None:
-        pass
-    coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolios[0]["id"])
+    if portfolio_id == None:
+        if portfolios == None:
+            return redirect(f"/create_portfolio")
+        portfolio_id = portfolios[0]["id"]
+    coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
+                       " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
     for coin in coins:
         for cl_coin in coinlist:
             if cl_coin.id == coin["id"]:
