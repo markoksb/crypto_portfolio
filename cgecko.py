@@ -21,7 +21,14 @@ def request(endpoint:str):
 
 def get_coin_list():
     endpoint = "coins/list"
-    return request(endpoint=endpoint).json()
+    try:
+        response = request(endpoint=endpoint).json()
+    except:
+        return apology("error with api request -- no response")
+    if response == None:
+        return apology("error with api request -- no response")
+
+    return response 
 
 
 def get_coin_update(cgids:str):
