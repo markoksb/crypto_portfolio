@@ -70,9 +70,9 @@ def overview():
             coins_to_update += f"{coin['cgid']},"
     # if list is not empty do an update
     if coins_to_update != "":
-        print("updating coin data ...", end="")
+        #print("updating coin data ...", end="")
         update_coin_in_db(coins_to_update)
         coin_list = get_coinlist_from_db()
-        print("done")
+        #print("done")
 
     return render_template("currencies.html", coins=coin_list)
