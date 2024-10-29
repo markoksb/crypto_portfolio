@@ -20,7 +20,7 @@
                     {% for portfolio in portfolios %}
                     <li class="nav-item text-nowrap">
                         <div class="nav-link">
-                        <a class="no-underline mango" href="/portfolio?id={{ portfolio.id }}">{{ portfolio.name }}</a>
+                        <a class="no-underline mango" href="/portfolio?pid={{ portfolio.id }}">{{ portfolio.name }}</a>
                         <a href="/delete_portfolio?id={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
                         </div>
                     </li>
@@ -29,6 +29,46 @@
         </div>
     </div>
 </nav>
+<br>
+<table>
+    <thead>
+        <th style="width: 25px;"> </th>
+        <th style="width: 300px;">currency</th>
+        <th style="width: 125px;">current price</th>
+        <th style="width: 75px;">amount</th>
+        <th style="width: 75px;">avg buy</th>
+        <th style="width: 75px;">value</th>
+        <th style="width: 75px;">gain</th>
+    </thead>
+    <tbody>
+        {% if coins %}
+            {% for coin in coins %}
+        <tr style="height: 30px;">
+            <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
+            <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+            <td>{{ coin.current_price }}</td>
+            <td>{{ (coin.quantity | float) }}</td>
+            <td>{{ coin.price | float }}</td>
+            <td>{{ "{:0,}".format(((coin.quantity | float) * coin.current_price) | round(2)) }}</td>
+            <td>{{ ((coin.price | float) / coin.current_price * 100) | round(2) }}%</td>
+        </tr>
+            {% endfor %}
+        {% else %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+<br>
+<br>
+<a class="nav-link mango" href="/add_coin?pid={{pid}}">add currency</a>
 
 {% endif %}
 {% endblock %}

@@ -13,7 +13,7 @@
     <br>
     <table>
         <thead>
-            <th style="width: 25px;"> </th>
+            <th style="width: 25px;">&nbsp;</th>
             <th style="width: 300px;">coin</th>
             <th style="width: 75px;">price</th>
             <th style="width: 75px;">1h</th>
@@ -21,6 +21,7 @@
             <th style="width: 75px;">7d</th>
             <th style="width: 75px;">30d</th>
             <th style="width: 150px;">market cap</th>
+            <th style="width: 75px;">&nbsp;</th>
         </thead>
         <tbody>
             {% if coins %}
@@ -50,10 +51,16 @@
                     <td style="text-align: right; color: red">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
                 {% endif %}
                 <td style="text-align: right;">{{ "{:0,}".format(coin.market_cap) }}</td>
+                <td>
+                    {% if add_coin == True %}
+                        <a href="/add_coin?pid={{ pid }}&cid={{ coin.id }}">add</a>
+                    {% endif %}
+                </td>
             </tr>
                 {% endfor %}
             {% else %}
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
