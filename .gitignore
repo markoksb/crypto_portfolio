@@ -4,3 +4,6 @@ flask_session
 database.py
 key.py
 *.bak
+
+req.txt
+dockerfile
