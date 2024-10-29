@@ -47,20 +47,15 @@ def update_currency_db() -> None:
         )
 
 
-def overview():
+def update_coin_values_and_return():
     """
         Main function for the currencies view.\n
         Read data from DB.\n
         Should the data not exist or is outdated, update the DB.\n
         Render the html with the coin data.
-    """
-    
+    """    
     # get coins from the database
     coin_list = get_coinlist_from_db()
-    # TODO: this is kinda nonsense but we need it if the DB is empty/reset or w/e
-    # idea is to have a function for this that also gets more than the top100 coins (#pagination)
-    if len(coin_list) < 50:
-        update_currency_db()
     
     coins_to_update = ""
     # check if our coin data is somewhat recent for each coin
@@ -74,5 +69,16 @@ def overview():
         update_coin_in_db(coins_to_update)
         coin_list = get_coinlist_from_db()
         #print("done")
+    return coin_list
 
+def overview():
+    """
+        Main function for the currencies view.\n
+    """
+    coin_list = update_coin_values_and_return()
+    # TODO: this is kinda nonsense but we need it if the DB is empty/reset or w/e
+    # idea is to have a function for this that also gets more than the top100 coins (#pagination)
+    if len(coin_list) < 50:
+        update_currency_db()
+        
     return render_template("currencies.html", coins=coin_list)
