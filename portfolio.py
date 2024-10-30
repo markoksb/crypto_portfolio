@@ -31,6 +31,7 @@ def get_users_portfolios(userid:int):
 def delete():
     portfolio_id = request.args.get("id")
     db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
+    db.execute("DELETE FROM portfolio_currency WHERE portfolio_id = ?", portfolio_id)
     print(portfolio_id)
     return redirect("/portfolio")
 
