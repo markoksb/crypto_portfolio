@@ -33,28 +33,50 @@
 <table>
     <thead>
         <th style="width: 25px;"> </th>
-        <th style="width: 300px;">currency</th>
+        <th style="width: 225px;">currency</th>
         <th style="width: 125px;">current price</th>
-        <th style="width: 75px;">amount</th>
-        <th style="width: 75px;">avg buy</th>
-        <th style="width: 75px;">value</th>
-        <th style="width: 75px;">gain</th>
+        <th style="width: 125px;">amount</th>
+        <th style="width: 125px;">avg buy</th>
+        <th style="width: 125px;">total invest</th>
+        <th style="width: 125px;">value</th>
+        <th style="width: 125px;">change</th>
+        <th style="width: 75px;">%change</th>
     </thead>
     <tbody>
         {% if coins %}
             {% for coin in coins %}
         <tr style="height: 30px;">
             <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
-            <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+            <td style="text-align: center;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
             <td>{{ coin.current_price }}</td>
             <td>{{ (coin.quantity | float) }}</td>
             <td>{{ coin.price | float }}</td>
-            <td>{{ "{:0,}".format(((coin.quantity | float) * coin.current_price) | round(2)) }}</td>
-            <td>{{ (coin.current_price / coin.price) | float * coin.quantity * 100 | round(2) }}%</td>
+            {% set total_price = (coin.price * coin.quantity) %}
+            <td>{{ "%0.2f"|format( total_price ) }}</td>
+            {% set total_value = (coin.current_price * coin.quantity) %}
+            <td>{{ "%0.2f"|format( total_value ) }}</td>
+            
+            {% set change = (total_value - total_price) %}
+            {% if change >= 0 %}
+                <td style="text-align: middle; color: green">
+            {% else %}
+                <td style="text-align: middle; color: red">
+            {% endif %}
+            {{ "%0.2f"|format( change ) }}</td>
+            
+            {% set perc_change = ((total_value - total_price) / total_price ) * 100  %}
+            {% if perc_change >= 0 %}
+                <td style="text-align: right; color: green">
+            {% else %}
+                <td style="text-align: right; color: red">
+            {% endif %}
+            {{ "%0.2f"|format( perc_change ) }}%</td>
         </tr>
             {% endfor %}
         {% else %}
         <tr>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
