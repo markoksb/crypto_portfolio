@@ -33,7 +33,7 @@
 <table>
     <thead>
         <th style="width: 25px;"> </th>
-        <th style="width: 225px;">currency</th>
+        <th style="width: 175px;">currency</th>
         <th style="width: 125px;">current price</th>
         <th style="width: 125px;">amount</th>
         <th style="width: 125px;">avg buy</th>
@@ -47,7 +47,7 @@
             {% for coin in coins %}
         <tr style="height: 30px;">
             <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
-            <td style="text-align: center;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+            <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
             <td>{{ coin.current_price }}</td>
             <td>{{ (coin.quantity | float) }}</td>
             <td>{{ coin.price | float }}</td>
@@ -58,13 +58,13 @@
             
             {% set change = (total_value - total_price) %}
             {% if change >= 0 %}
-                <td style="text-align: middle; color: green">
+                <td style="text-align: center; color: green">
             {% else %}
-                <td style="text-align: middle; color: red">
+                <td style="text-align: center; color: red">
             {% endif %}
             {{ "%0.2f"|format( change ) }}</td>
             
-            {% set perc_change = ((total_value - total_price) / total_price ) * 100  %}
+            {% set perc_change = (change / total_price ) * 100  %}
             {% if perc_change >= 0 %}
                 <td style="text-align: right; color: green">
             {% else %}
