@@ -14,14 +14,12 @@ def add_coin_to_portfolio():
     else:
         pid = request.args.get("pid")
         currency_id = request.args.get("cid")
-        print(f"c: {currency_id}")
         if currency_id == None:
             # get coins from the database
             coin_list = currencies.get_coinlist_from_db()
-            print(f"c: {coin_list}")
             return render_template("currencies.html", coins=coin_list, pid=pid, add_coin=True)
-        else:
-            return render_template("add_currency.html", pid=pid, cid=currency_id)
+
+        return render_template("add_currency.html", pid=pid, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
 
 
 def get_users_portfolios(userid:int):

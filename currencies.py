@@ -12,6 +12,11 @@ def get_coinlist_from_db():
     return db.execute("SELECT * FROM currencies")
 
 
+def get_coin_from_db_by_id(coin_id:int):
+    """returns a currency based on our coin id"""
+    return db.execute("SELECT * FROM currencies WHERE id = ?", coin_id)
+
+
 def get_coin_from_db(coin_cgid:str):
     """returns a currency based on coingecko id"""
     return db.execute("SELECT * FROM currencies WHERE cgid = ?", coin_cgid)
@@ -80,5 +85,5 @@ def overview():
     # idea is to have a function for this that also gets more than the top100 coins (#pagination)
     if len(coin_list) < 50:
         update_currency_db()
-        
+
     return render_template("currencies.html", coins=coin_list)
