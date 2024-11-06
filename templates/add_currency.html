@@ -6,10 +6,10 @@
 
 {% block body %}
     <br>
-    Specify the amount and price for the bought {{ cid }}
+    Specify the amount and price for the bought {{ coin.name }}
     <form action="/add_coin" method="post">
         <input type="hidden" name="pid" value="{{ pid }}">
-        <input type="hidden" name="cid" value="{{ cid }}">
+        <input type="hidden" name="cid" value="{{ coin.id }}">
         <div class="mb-3">
             <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="amount" placeholder="amount" type="text">
         </div>
