@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, redirect
 from flask_session import Session
 
 import users, currencies, portfolio

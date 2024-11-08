@@ -1,7 +1,7 @@
-from flask import render_template, request, redirect, session
+from flask import render_template
 from datetime import datetime, timedelta
 from error import apology
-import bybit, cgecko
+import cgecko
 
 import cs50
 
