@@ -73,7 +73,7 @@ def portfolio():
     portfolio_id = request.args.get("pid")
     portfolios = get_users_portfolios(session["user_id"])
     if portfolio_id == None:
-        if portfolios == None:
+        if not portfolios:
             return redirect(f"/create_portfolio")
         portfolio_id = portfolios[0]["id"]
     coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
