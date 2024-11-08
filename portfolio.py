@@ -2,9 +2,11 @@ from flask import render_template, session, request, redirect
 import cs50
 import currencies
 from error import apology
+import req_login
 
 db = cs50.SQL("sqlite:///portfolio.db")
 
+@req_login.login_required
 def add_coin_to_portfolio():
     if request.method == "POST":
         pid = request.form.get("pid")
@@ -22,10 +24,12 @@ def add_coin_to_portfolio():
         return render_template("add_currency.html", pid=pid, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
 
 
+@req_login.login_required
 def get_users_portfolios(userid:int):
     return db.execute("SELECT * FROM portfolios WHERE user_id = ?", userid)
 
 
+@req_login.login_required
 def delete():
     portfolio_id = request.args.get("id")
     db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
@@ -34,6 +38,7 @@ def delete():
     return redirect("/portfolio")
 
 
+@req_login.login_required
 def create():
     """
         
@@ -55,6 +60,7 @@ class crypto_coin(object):
         self.current_price = current_price
 
 
+@req_login.login_required
 def portfolio():
     """
         

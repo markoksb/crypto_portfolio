@@ -13,6 +13,15 @@ app.config["SESSION_COOKIE_NAME"] = "cportfolio"
 app.session_cookie_name = "cportfolio"
 Session(app)
 
+@app.after_request
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+
 app.add_url_rule("/register", view_func=users.register, methods=["GET", "POST"])
 app.add_url_rule("/login", view_func=users.login, methods=["GET", "POST"])
 app.add_url_rule("/logout", view_func=users.logout)
@@ -21,14 +30,6 @@ app.add_url_rule("/portfolio", view_func=portfolio.portfolio)
 app.add_url_rule("/create_portfolio", view_func=portfolio.create, methods=["GET", "POST"])
 app.add_url_rule("/delete_portfolio", view_func=portfolio.delete)
 app.add_url_rule("/add_coin", view_func=portfolio.add_coin_to_portfolio, methods=["GET", "POST"])
-
-@app.after_request
-def after_request(response):
-    """Ensure responses aren't cached"""
-    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
 
 
 @app.route("/")
