@@ -2,7 +2,7 @@ body
 {
     background-color: #484444;
     color: #ffffff;
-    font-family: 'Helvetica', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Source Sans Pro', 'Helvetica', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 table
 {
@@ -68,4 +68,24 @@ a:hover
     height: 2em;
     margin: 1em;
     padding: 1em;
+}
+
+footer {
+    position: fixed;
+    background-color: #484444;
+    bottom: 0;
+    width: 100%;
+    z-index: 800;
+    height: auto;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for contrast */
+}
+footer p {
+    line-height: 0.2; /* Adjust line-height to reduce vertical spacing */
+}
+
+@media (max-width: 768px) {
+    .currency-table th:nth-child(6), .currency-table td:nth-child(6),
+    .currency-table th:nth-child(7), .currency-table td:nth-child(7) {
+        display: none;
+    }
 }

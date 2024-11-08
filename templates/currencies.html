@@ -10,65 +10,62 @@
 {% endblock %}
 
 {% block body %}
-    <br>
-    <table>
-        <thead>
-            <th style="width: 25px;">&nbsp;</th>
-            <th style="width: 300px;">coin</th>
-            <th style="width: 75px;">price</th>
-            <th style="width: 75px;">1h</th>
-            <th style="width: 75px;">24h</th>
-            <th style="width: 75px;">7d</th>
-            <th style="width: 75px;">30d</th>
-            <th style="width: 150px;">market cap</th>
-            <th style="width: 75px;">&nbsp;</th>
-        </thead>
-        <tbody>
-            {% if coins %}
-                {% for coin in coins %}
-            <tr style="height: 30px;">
-                <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
-                <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
-                <td>{{ coin.current_price }}</td>
-                {% if coin.price_change_percent_1h >= 0 %}
-                   <td style="text-align: right; color: green">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
-                {% else %}
-                  <td style="text-align: right; color: red">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
-                {% endif %}
-                {% if coin.price_change_percent_24h >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
-                {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
-                {% endif %}
-                {% if coin.price_change_percent_7d >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
-                {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
-                {% endif %}
-                {% if coin.price_change_percent_30d >= 0 %}
-                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
-                {% else %}
-                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
-                {% endif %}
-                <td style="text-align: right;">{{ "{:0,}".format(coin.market_cap) }}</td>
-                <td>
-                    {% if add_coin == True %}
-                        <a href="/add_coin?pid={{ pid }}&cid={{ coin.id }}">add</a>
+    <div class="table-responsive currency-table">
+        <br>
+        <table>
+            <thead>
+                <th style="width: 25px;">&nbsp;</th>
+                <th style="width: 300px;">coin</th>
+                <th style="width: 75px;">price</th>
+                <th style="width: 75px;">1h</th>
+                <th style="width: 75px;">24h</th>
+                <th style="width: 75px;">7d</th>
+                <th style="width: 75px;">30d</th>
+                <th style="width: 150px;">market cap</th>
+                <th style="width: 75px;">&nbsp;</th>
+            </thead>
+            <tbody>
+                {% if coins %}
+                    {% for coin in coins %}
+                <tr style="height: 30px;">
+                    <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
+                    <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+                    <td>{{ coin.current_price }}</td>
+                    {% if coin.price_change_percent_1h >= 0 %}
+                    <td style="text-align: right; color: green">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
+                    {% else %}
+                    <td style="text-align: right; color: red">{{ (coin.price_change_percent_1h | float) | round(2) }}%</td>
                     {% endif %}
-                </td>
-            </tr>
-                {% endfor %}
-            {% else %}
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            {% endif %}
-        </tbody>
-    </table>
+                    {% if coin.price_change_percent_24h >= 0 %}
+                        <td style="text-align: right; color: green">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
+                    {% else %}
+                        <td style="text-align: right; color: red">{{ (coin.price_change_percent_24h | float) | round(2) }}%</td>
+                    {% endif %}
+                    {% if coin.price_change_percent_7d >= 0 %}
+                        <td style="text-align: right; color: green">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
+                    {% else %}
+                        <td style="text-align: right; color: red">{{ (coin.price_change_percent_7d | float) | round(2) }}%</td>
+                    {% endif %}
+                    {% if coin.price_change_percent_30d >= 0 %}
+                        <td style="text-align: right; color: green">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
+                    {% else %}
+                        <td style="text-align: right; color: red">{{ (coin.price_change_percent_30d | float) | round(2) }}%</td>
+                    {% endif %}
+                    <td style="text-align: right;">{{ "{:0,}".format(coin.market_cap) }}</td>
+                    <td>
+                        {% if add_coin == True %}
+                            <a href="/add_coin?pid={{ pid }}&cid={{ coin.id }}">add</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="9" style="text-align: center;">No coins found.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

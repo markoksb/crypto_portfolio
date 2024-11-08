@@ -13,82 +13,73 @@
 {% if session["user_id"] %}
 <nav class="navbar navbar-expand-md navbar-light">
    
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav me-auto mt-2 text-nowrap">
-                    <li class="nav-item"><a class="nav-link mango" href="/create_portfolio">new</a></li>
-                    {% for portfolio in portfolios %}
-                    <li class="nav-item text-nowrap">
-                        <div class="nav-link">
-                        <a class="no-underline mango" href="/portfolio?pid={{ portfolio.id }}">{{ portfolio.name }}</a>
-                        <a href="/delete_portfolio?id={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
-                        </div>
-                    </li>
-                    {% endfor %}
-                </ul>
-        </div>
+    <div class="container-fluid" id="navbar">
+        <ul class="navbar-nav me-auto mt-2 text-nowrap">
+            <li class="nav-item"><a class="nav-link mango" href="/create_portfolio">new</a></li>
+            {% for portfolio in portfolios %}
+            <li class="nav-item text-nowrap">
+                <div class="nav-link">
+                <a class="no-underline mango" href="/portfolio?pid={{ portfolio.id }}">{{ portfolio.name }}</a>
+                <a href="/delete_portfolio?id={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </nav>
 <br>
-<table>
-    <thead>
-        <th style="width: 25px;"> </th>
-        <th style="width: 175px;">currency</th>
-        <th style="width: 125px;">current price</th>
-        <th style="width: 125px;">amount</th>
-        <th style="width: 125px;">avg buy</th>
-        <th style="width: 125px;">total invest</th>
-        <th style="width: 125px;">value</th>
-        <th style="width: 125px;">change</th>
-        <th style="width: 75px;">%change</th>
-    </thead>
-    <tbody>
-        {% if coins %}
-            {% for coin in coins %}
-        <tr style="height: 30px;">
-            <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
-            <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
-            <td>{{ coin.current_price }}</td>
-            <td>{{ (coin.quantity | float) }}</td>
-            <td>{{ coin.price | float }}</td>
-            {% set total_price = (coin.price * coin.quantity) %}
-            <td>{{ "%0.2f"|format( total_price ) }}</td>
-            {% set total_value = (coin.current_price * coin.quantity) %}
-            <td>{{ "%0.2f"|format( total_value ) }}</td>
-            
-            {% set change = (total_value - total_price) %}
-            {% if change >= 0 %}
-                <td style="text-align: center; color: green">
+<div class="table-responsive">
+    <table>
+        <thead>
+            <th style="width: 25px;"> </th>
+            <th style="width: 175px;">currency</th>
+            <th style="width: 125px;">current price</th>
+            <th style="width: 125px;">amount</th>
+            <th style="width: 125px;">avg buy</th>
+            <th style="width: 125px;">total invest</th>
+            <th style="width: 125px;">value</th>
+            <th style="width: 125px;">change</th>
+            <th style="width: 75px;">%change</th>
+        </thead>
+        <tbody>
+            {% if coins %}
+                {% for coin in coins %}
+            <tr style="height: 30px;">
+                <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
+                <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+                <td>{{ coin.current_price }}</td>
+                <td>{{ (coin.quantity | float) }}</td>
+                <td>{{ coin.price | float }}</td>
+                {% set total_price = (coin.price * coin.quantity) %}
+                <td>{{ "%0.2f"|format( total_price ) }}</td>
+                {% set total_value = (coin.current_price * coin.quantity) %}
+                <td>{{ "%0.2f"|format( total_value ) }}</td>
+                
+                {% set change = (total_value - total_price) %}
+                {% if change >= 0 %}
+                    <td style="text-align: center; color: green">
+                {% else %}
+                    <td style="text-align: center; color: red">
+                {% endif %}
+                {{ "%0.2f"|format( change ) }}</td>
+                
+                {% set perc_change = (change / total_price ) * 100  %}
+                {% if perc_change >= 0 %}
+                    <td style="text-align: right; color: green">
+                {% else %}
+                    <td style="text-align: right; color: red">
+                {% endif %}
+                {{ "%0.2f"|format( perc_change ) }}%</td>
+            </tr>
+                {% endfor %}
             {% else %}
-                <td style="text-align: center; color: red">
+            <tr>
+                <td colspan="9">&nbsp;</td>
+            </tr>
             {% endif %}
-            {{ "%0.2f"|format( change ) }}</td>
-            
-            {% set perc_change = (change / total_price ) * 100  %}
-            {% if perc_change >= 0 %}
-                <td style="text-align: right; color: green">
-            {% else %}
-                <td style="text-align: right; color: red">
-            {% endif %}
-            {{ "%0.2f"|format( perc_change ) }}%</td>
-        </tr>
-            {% endfor %}
-        {% else %}
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        {% endif %}
-    </tbody>
-</table>
-<br>
+        </tbody>
+    </table>
+</div>
 <br>
 <a class="nav-link mango" href="/add_coin?pid={{pid}}">add currency</a>
 
