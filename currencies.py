@@ -2,10 +2,7 @@ from flask import render_template
 from datetime import datetime, timedelta
 from error import apology
 import cgecko
-
-import cs50
-
-db = cs50.SQL("sqlite:///portfolio.db")
+from database import db
 
 def get_coinlist_from_db():
     """returns all the currencies"""

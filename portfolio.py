@@ -1,10 +1,7 @@
 from flask import render_template, session, request, redirect
-import cs50
-import currencies
+import currencies, req_login
 from error import apology
-import req_login
-
-db = cs50.SQL("sqlite:///portfolio.db")
+from database import db
 
 @req_login.login_required
 def add_coin_to_portfolio():

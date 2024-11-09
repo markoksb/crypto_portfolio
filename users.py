@@ -2,9 +2,7 @@ from flask import render_template, request, redirect, session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from error import apology
-import cs50
-
-db = cs50.SQL("sqlite:///portfolio.db")
+from database import db
 
 def logout():
     """Log user out"""

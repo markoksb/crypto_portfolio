@@ -1,4 +1,3 @@
-import os
 from flask import Flask, redirect
 from flask_session import Session
 
