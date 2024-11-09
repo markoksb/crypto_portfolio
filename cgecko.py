@@ -77,25 +77,3 @@ def get_coin_list_w_market_data():
 #     "price_change_percentage_24h_in_currency": -2.092341671162888,
 #     "price_change_percentage_7d_in_currency": -1.2535379112507992
 # }
-
-# CREATE TABLE currencies (
-# id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-# cgid TEXT UNIQUE NOT NULL,
-# symbol TEXT NOT NULL,
-# name TEXT NOT NULL,
-# icon_url TEXT NOT NULL,
-# current_price REAL NOT NULL,
-# market_cap INTEGER NOT NULL,
-# high_24h REAL NOT NULL,
-# low_24h REAL NOT NULL,
-# ath REAL NOT NULL,
-# ath_date TEXT NOT NULL,
-# atl REAL NOT NULL,
-# atl_date TEXT NOT NULL,
-# cg_update_date TEXT NOT NULL,
-# price_change_percent_1h REAL,
-# price_change_percent_24h REAL NOT NULL,
-# price_change_percent_7d REAL,
-# price_change_percent_30d REAL,
-# update_date TEXT NOT NULL
-# );

@@ -97,18 +97,3 @@ def portfolio():
     #         if portfolio["id"] == portfolio_id:   
     #             coins = db.execute("SELECT * FROM currencies WHERE id = ?", portfolio[""])
     return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, pid=portfolio_id)
-
-# CREATE TABLE portfolios (
-# id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-# user_id INTEGER,
-# name TEXT,
-# FOREIGN KEY (user_id) REFERENCES users(id)
-# );
-
-# CREATE TABLE portfolio_currency (
-# id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-# portfolio_id INTEGER NOT NULL,
-# cryptocurrency_id INTEGER NOT NULL,
-# quantity REAL NOT NULL,
-# price REAL NOT NULL,
-# );
