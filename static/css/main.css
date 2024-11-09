@@ -83,6 +83,25 @@ footer p {
     line-height: 0.2; /* Adjust line-height to reduce vertical spacing */
 }
 
+.form-control.custom-input {
+    border-color: #000; /* Custom border color */
+    background-color: #484444; /* Custom background */
+    color: #ffffff; /* Text color */
+}
+.btn.custom-button {
+    background-color: #ffc000; /* Custom background */
+    border: none; /* Remove border */
+    color: #000000; /* Text color */
+}
+.btn.custom-button:hover {
+    background-color: #dd8000; /* Darker shade on hover */
+}
+.custom-input:focus {
+    border-color: #ffc000; /* Custom border color */
+    box-shadow: 0 0 5px rgba(255, 87, 51, 0.5); /* Custom focus shadow */
+    outline: none; /* Remove the default blue outline */
+}
+
 @media (max-width: 768px) {
     .currency-table th:nth-child(6), .currency-table td:nth-child(6),
     .currency-table th:nth-child(7), .currency-table td:nth-child(7) {

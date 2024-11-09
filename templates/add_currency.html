@@ -11,11 +11,43 @@
         <input type="hidden" name="pid" value="{{ pid }}">
         <input type="hidden" name="cid" value="{{ coin.id }}">
         <div class="mb-3">
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" name="amount" placeholder="amount" type="text">
+            amount:
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="text" oninput="autoCalculate()">
         </div>
         <div class="mb-3">
-            <input class="form-control mx-auto w-auto" name="price" placeholder="price" type="text" value="{{ coin.current_price }}">
+            price:
+            <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="text" value="{{ coin.current_price }}" oninput="autoCalculate()">
         </div>
-        <button class="btn btn-primary" type="submit">add</button>
+        <div class="mb-3">
+            total:
+            <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="text" oninput="autoCalculate()">
+        </div>
+        <button class="btn custom-button" type="submit">add</button>
     </form>
+    <script>
+        // TODO: gotta rethink this JS
+        function autoCalculate() {
+            // Get all the input fields
+            const amountInput = document.getElementById('amount');
+            const priceInput = document.getElementById('price');
+            const totalInput = document.getElementById('total');
+
+            // Parse the current values
+            const amount = parseFloat(amountInput.value);
+            const price = parseFloat(priceInput.value);
+            const total = parseFloat(totalInput.value);
+
+            // Determine the currently active input (being edited)
+            const activeElement = document.activeElement;
+
+            // Only calculate and update if the active field is not being changed
+            if (activeElement !== amountInput && amount && price && !total) {
+                totalInput.value = amount * price;
+            } else if (activeElement !== priceInput && amount && total && !price) {
+                priceInput.value = total / amount;
+            } else if (activeElement !== totalInput && price && total && !amount) {
+                amountInput.value = total / price;
+            }
+        }
+    </script>
 {% endblock %}
