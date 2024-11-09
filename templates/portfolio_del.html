@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+- Portfolio Delete
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session["user_id"] %}
+
+<br>
+<form action="/delete_portfolio" method="post">
+    <input type="hidden" name="folio_id" value="{{ portfolio.id }}">
+    <div class="mb-3">
+        Confirm deletion of portfolio {{ portfolio.name }}
+    </div>
+    <button class="btn custom-button" type="submit">Delete</button>
+</form>
+
+{% endif %}
+{% endblock %}

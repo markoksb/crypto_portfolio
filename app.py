@@ -28,7 +28,7 @@ app.add_url_rule("/logout", view_func=users.logout)
 app.add_url_rule("/currencies", view_func=currencies.overview)
 app.add_url_rule("/portfolio", view_func=portfolio.portfolio)
 app.add_url_rule("/create_portfolio", view_func=portfolio.create, methods=["GET", "POST"])
-app.add_url_rule("/delete_portfolio", view_func=portfolio.delete)
+app.add_url_rule("/delete_portfolio", view_func=portfolio.delete, methods=["GET", "POST"])
 app.add_url_rule("/add_coin", view_func=portfolio.add_coin_to_portfolio, methods=["GET", "POST"])
 
 

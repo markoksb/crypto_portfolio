@@ -31,11 +31,15 @@ def get_users_portfolios(userid:int):
 
 @req_login.login_required
 def delete():
-    portfolio_id = request.args.get("id")
-    db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
-    db.execute("DELETE FROM portfolio_currency WHERE portfolio_id = ?", portfolio_id)
-    print(portfolio_id)
-    return redirect("/portfolio")
+    if request.method == "POST":
+        portfolio_id = request.form.get("folio_id")
+        db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
+        db.execute("DELETE FROM portfolio_currency WHERE portfolio_id = ?", portfolio_id)
+        return redirect("/portfolio")
+    
+    portfolio_id=request.args.get("folio_id")
+    portfolio = db.execute("SELECT * FROM portfolios WHERE id = ? ", portfolio_id)
+    return render_template("portfolio_del.html", portfolio=portfolio[0])
 
 
 @req_login.login_required
