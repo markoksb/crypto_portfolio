@@ -45,6 +45,10 @@ a:hover
 {
     color: #ffc000;
 }
+a.mango:hover
+{
+    color: #cc8000;
+}
 .torquese
 {
     color: #338484;
