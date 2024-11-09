@@ -2,7 +2,6 @@ import cs50
 from os.path import exists
 
 import database_schema
-from error import apology
 
 db = None
 file_name = "portfolio.db"
