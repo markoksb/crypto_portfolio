@@ -5,6 +5,7 @@ from database import db
 
 @req_login.login_required
 def add_coin_to_portfolio():
+    """add an entry for a purchase"""
     if request.method == "POST":
         pid = request.form.get("pid")
         db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
@@ -23,11 +24,13 @@ def add_coin_to_portfolio():
 
 @req_login.login_required
 def get_users_portfolios(userid:int):
+    """get a list of portfolios for the user"""
     return db.execute("SELECT * FROM portfolios WHERE user_id = ?", userid)
 
 
 @req_login.login_required
 def delete():
+    """deletes a portfolio"""
     if request.method == "POST":
         portfolio_id = request.form.get("folio_id")
         db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
@@ -42,7 +45,7 @@ def delete():
 @req_login.login_required
 def create():
     """
-        
+        creates a new portfolio
     """
     if request.method == "POST":
         portfolio_id = db.execute("INSERT INTO portfolios (user_id, name) VALUES (?, ?)", session["user_id"], request.form.get("name"))
@@ -62,6 +65,7 @@ class crypto_coin(object):
 
 
 def get_portfolio_entries(portfolio_id: int) -> list:
+    """gets all the purchase entries for the given portfolio"""
     coin_list = None
     try:
         coin_list = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
@@ -72,6 +76,7 @@ def get_portfolio_entries(portfolio_id: int) -> list:
 
 
 def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
+    """generates a list of coins from the database entries made to the given portfolio"""
     coin_list = []
     list_of_purchases = get_portfolio_entries(portfolio_id)
     for entry in list_of_purchases:
@@ -91,7 +96,7 @@ def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
 @req_login.login_required
 def portfolio():
     """
-        
+        accumulates data based on the users portfolio and renders the template.
     """
     currencies.update_coin_values_and_return()
     coinlist = []
@@ -107,23 +112,4 @@ def portfolio():
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    # coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
-    #                    " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
-    # for coin in coins:
-    #     for cl_coin in coinlist:
-    #         if cl_coin.id == coin["id"]:
-    #             cl_coin.price = (cl_coin.price + coin["price"]) / 2
-    #             cl_coin.quantity += coin["quantity"]
-    #             exists = True
-
-    #     if exists != True:                
-    #         ccoin = crypto_coin(id=coin["id"], icon_url=coin["icon_url"], symbol=coin["symbol"], name=coin["name"], quantity=coin["quantity"], price=coin["price"], current_price=coin["current_price"])
-    #         coinlist.append(ccoin)
-    #     exists = False
-
-
-    # else:
-    #     for portfolio in portfolios:
-    #         if portfolio["id"] == portfolio_id:   
-    #             coins = db.execute("SELECT * FROM currencies WHERE id = ?", portfolio[""])
     return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, pid=portfolio_id)
