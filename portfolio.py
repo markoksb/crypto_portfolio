@@ -113,6 +113,17 @@ def calculate_change(coin_list: list[crypto_coin], time: str = "24h") -> float:
     return total
 
 
+def calculate_pnl_per_coin(coin: crypto_coin) -> float:
+    return coin.current_price - coin.price
+
+
+def calculate_pnl(coin_list: list[crypto_coin]) -> float:
+    total = 0
+    for coin in coin_list: 
+        total += calculate_pnl_per_coin(coin) * coin.quantity
+    return total
+
+
 @req_login.login_required
 def portfolio():
     """
@@ -134,4 +145,4 @@ def portfolio():
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist))
+    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist), pnl=calculate_pnl(coinlist))

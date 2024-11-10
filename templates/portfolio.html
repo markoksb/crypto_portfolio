@@ -37,9 +37,15 @@
 {% endif %}
 <br>
 {% if change >= 0 %}
-    change over 24h is: {{ '$ %07.3f' % change }}
+    change over 24h is: {{ '+$%07.3f' % change|abs }}
 {% else %}
-    change over 24h is: {{ '$ %07.3f' % change }}
+    change over 24h is: {{ '-$%07.3f' % change|abs }}
+{% endif %}
+<br>
+{% if pnl >= 0 %}
+    profit/loss {{ '+$%07.3f' % pnl|abs }}
+{% else %}
+    profit/loss {{ '-$%07.3f' % pnl|abs }}
 {% endif %}
 <div class="table-responsive">
     <table>
@@ -51,8 +57,7 @@
             <th style="width: 125px;">avg buy</th>
             <th style="width: 125px;">total invest</th>
             <th style="width: 125px;">value</th>
-            <th style="width: 125px;">change</th>
-            <th style="width: 75px;">%change</th>
+            <th style="width: 125px;">pnl</th>
         </thead>
         <tbody>
             {% if coins %}
@@ -69,25 +74,19 @@
                 <td>{{ "%0.2f"|format( total_value ) }}</td>
                 
                 {% set change = (total_value - total_price) %}
-                {% if change >= 0 %}
-                    <td style="text-align: center; color: green">
-                {% else %}
-                    <td style="text-align: center; color: red">
-                {% endif %}
-                {{ "%0.2f"|format( change ) }}</td>
-                
                 {% set perc_change = (change / total_price ) * 100  %}
-                {% if perc_change >= 0 %}
+                {% if change >= 0 %}
                     <td style="text-align: right; color: green">
                 {% else %}
                     <td style="text-align: right; color: red">
                 {% endif %}
-                {{ "%0.2f"|format( perc_change ) }}%</td>
+                {{ "$%06.2f"|format( change ) }}<br>
+                <span style="font-size: 10pt;">{{ "%5.2f"|format( perc_change ) }}%</span></td>
             </tr>
                 {% endfor %}
             {% else %}
             <tr>
-                <td colspan="9">&nbsp;</td>
+                <td colspan="8">&nbsp;</td>
             </tr>
             {% endif %}
         </tbody>
