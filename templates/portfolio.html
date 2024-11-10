@@ -19,8 +19,12 @@
             {% for portfolio in portfolios %}
             <li class="nav-item text-nowrap">
                 <div class="nav-link">
-                <a class="no-underline mango" href="/portfolio?pid={{ portfolio.id }}">{{ portfolio.name }}</a>
-                <a href="/delete_portfolio?folio_id={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
+                {% if portfolio.id == portfolio_id |int %}
+                    <a class="no-underline red" href="/portfolio?folioid={{ portfolio.id }}">{{ portfolio.name }}</a>
+                {% else %}
+                    <a class="no-underline mango" href="/portfolio?folioid={{ portfolio.id }}">{{ portfolio.name }}</a>
+                {% endif %}
+                    <a href="/delete_portfolio?folioid={{ portfolio.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a>
                 </div>
             </li>
             {% endfor %}
@@ -81,7 +85,7 @@
     </table>
 </div>
 <br>
-<a class="nav-link mango" href="/add_coin?pid={{pid}}">add currency</a>
+<a class="nav-link mango" href="/add_coin?folioid={{portfolio_id}}">add currency</a>
 
 {% endif %}
 {% endblock %}
