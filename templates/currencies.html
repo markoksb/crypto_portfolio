@@ -29,16 +29,16 @@
                     <td style="text-align:left;"><img src="{{ coin.icon_url }}" width="20" height="20">&nbsp;&nbsp;{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                     <td style="text-align: right;">{{ coin.current_price }}</td>
                     <td class="{{ 'num-positive' if coin.price_change_percent_1h >= 0 else 'num-negative' }}" style="text-align: right;">
-                        {{ (coin.price_change_percent_1h | float) | round(2) }}%
+                        {{ "%04.2f" % (coin.price_change_percent_1h | float) }}%
                     </td>
                     <td class="{{ 'num-positive' if coin.price_change_percent_24h >= 0 else 'num-negative' }}" style="text-align: right;">
-                        {{ (coin.price_change_percent_24h | float) | round(2) }}%
+                        {{ "%04.2f" % (coin.price_change_percent_24h | float) }}%
                     </td>
                     <td class="{{ 'num-positive' if coin.price_change_percent_7d >= 0 else 'num-negative' }}" style="text-align: right;">
-                        {{ (coin.price_change_percent_7d | float) | round(2) }}%
+                        {{ "%04.2f" % (coin.price_change_percent_7d | float) }}%
                     </td>
                     <td class="{{ 'num-positive' if coin.price_change_percent_30d >= 0 else 'num-negative' }}" style="text-align: right;">
-                        {{ (coin.price_change_percent_30d | float) | round(2) }}%
+                        {{ "%04.2f" % (coin.price_change_percent_30d | float) }}%
                     </td>
                     <td style="text-align: right;">{{ "{:0,}".format(coin.market_cap) }}</td>
                     <td>
