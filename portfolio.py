@@ -7,19 +7,19 @@ from database import db
 def add_coin_to_portfolio():
     """add an entry for a purchase"""
     if request.method == "POST":
-        pid = request.form.get("pid")
+        portfolio_id = request.form.get("folioid")
         db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
-                    pid, request.form.get("cid"), request.form.get("amount"), request.form.get("price"))
-        return redirect(f"/portfolio?pid={pid}")
+                    portfolio_id, request.form.get("cid"), request.form.get("amount"), request.form.get("price"))
+        return redirect(f"/portfolio?folioid={portfolio_id}")
     else:
-        pid = request.args.get("pid")
+        portfolio_id = request.args.get("folioid")
         currency_id = request.args.get("cid")
         if currency_id == None:
             # get coins from the database
             coin_list = currencies.get_coinlist_from_db()
-            return render_template("currencies.html", coins=coin_list, pid=pid, add_coin=True)
+            return render_template("currencies.html", coins=coin_list, portfolio_id=portfolio_id, add_coin=True)
 
-        return render_template("add_currency.html", pid=pid, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
+        return render_template("add_currency.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
 
 
 @req_login.login_required
@@ -32,12 +32,12 @@ def get_users_portfolios(userid:int):
 def delete():
     """deletes a portfolio"""
     if request.method == "POST":
-        portfolio_id = request.form.get("folio_id")
+        portfolio_id = request.form.get("folioid")
         db.execute("DELETE FROM portfolios WHERE id = ?", portfolio_id)
         db.execute("DELETE FROM portfolio_currency WHERE portfolio_id = ?", portfolio_id)
         return redirect("/portfolio")
     
-    portfolio_id=request.args.get("folio_id")
+    portfolio_id=request.args.get("folioid")
     portfolio = db.execute("SELECT * FROM portfolios WHERE id = ? ", portfolio_id)
     return render_template("portfolio_del.html", portfolio=portfolio[0])
 
@@ -49,7 +49,7 @@ def create():
     """
     if request.method == "POST":
         portfolio_id = db.execute("INSERT INTO portfolios (user_id, name) VALUES (?, ?)", session["user_id"], request.form.get("name"))
-        return redirect(f"/portfolio?pid={portfolio_id}")
+        return redirect(f"/portfolio?folioid={portfolio_id}")
     
     return render_template("portfolio_new.html")
 
@@ -103,13 +103,17 @@ def portfolio():
     exists = False
     if session["user_id"] == None:
         return apology("You're not logged in.", 400)
-    portfolio_id = request.args.get("pid")
+    
     portfolios = get_users_portfolios(session["user_id"])
+    if not portfolios:
+        return redirect(f"/create_portfolio")
+    
+    portfolio_id = request.args.get("folioid")
     if portfolio_id == None:
-        if not portfolios:
-            return redirect(f"/create_portfolio")
         portfolio_id = portfolios[0]["id"]
+
+    print(portfolio_id)
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, pid=portfolio_id)
+    return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, portfolio_id=portfolio_id)
