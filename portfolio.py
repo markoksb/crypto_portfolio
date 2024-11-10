@@ -112,8 +112,6 @@ def portfolio():
     if portfolio_id == None:
         portfolio_id = portfolios[0]["id"]
 
-    print(portfolio_id)
-
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
     return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, portfolio_id=portfolio_id)
