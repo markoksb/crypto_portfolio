@@ -91,7 +91,14 @@ def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
             ccoin = crypto_coin(id=entry["id"], icon_url=entry["icon_url"], symbol=entry["symbol"], name=entry["name"], quantity=entry["quantity"], price=entry["price"], current_price=entry["current_price"])
             coin_list.append(ccoin)
     return coin_list
-        
+
+
+def calculate_total_value(coin_list: list[crypto_coin]) -> int:
+    total = 0
+    for coin in coin_list:
+        total += coin.current_price * coin.quantity
+    return total
+
 
 @req_login.login_required
 def portfolio():
@@ -114,4 +121,4 @@ def portfolio():
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    return render_template("portfolio.html", portfolios=portfolios, coins=coinlist, portfolio_id=portfolio_id)
+    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist))
