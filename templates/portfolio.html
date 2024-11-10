@@ -32,24 +32,29 @@
     </div>
 </nav>
 <br>
-{% if value > 0 %}
-    current value {{ '$ %06.2f' % value }}
-{% endif %}
-<br>
-24h change
-{% if change >= 0 %}
-    {{ '+$%07.3f' % change|abs }}
-{% else %}
-    {{ '-$%07.3f' % change|abs }}
-{% endif %}
-<br>
-profit/loss
-{% if pnl >= 0 %}
-    {{ '+$%07.3f' % pnl|abs }}
-{% else %}
-    {{ '-$%07.3f' % pnl|abs }}
-{% endif %}
-<br>
+<div class="row">
+    <div class="col-md-4 col-12 container-fluid">
+    {% if value > 0 %}
+        current value <span class="num-positive">{{ '$ %06.2f' % value }}</span>
+    {% endif %}
+    </div>
+    <div class="col-md-4 col-12 container-fluid">
+    24h change
+    {% if change >= 0 %}
+        <span class="num-positive">{{ '+$ %07.3f' % change|abs }}</span>
+    {% else %}
+        <span class="num-negative">{{ '-$ %07.3f' % change|abs }}</span>
+    {% endif %}
+    </div>
+    <div class="col-md-4 col-12 container-fluid">
+    profit/loss
+    {% if pnl >= 0 %}
+        <span class="num-positive">{{ '+$ %07.3f' % pnl|abs }}</span>
+    {% else %}
+        <span class="num-negative">{{ '-$ %07.3f' % pnl|abs }}</span>
+    {% endif %}
+    </div>
+</div>
 <br>
 <div class="table-responsive">
     <table>
@@ -80,9 +85,9 @@ profit/loss
                 {% set change = (total_value - total_price) %}
                 {% set perc_change = (change / total_price ) * 100  %}
                 {% if change >= 0 %}
-                    <td style="text-align: right; color: rgb(70, 240, 70)">
+                    <td class="num-positive" style="text-align: right;">
                 {% else %}
-                    <td style="text-align: right; color: rgb(240, 70, 70)">
+                    <td class="num-negative" style="text-align: right;">
                 {% endif %}
                 {{ "$%04.2f"|format( change ) }}<br>
                 <span style="font-size: 10pt;">{{ "%5.2f"|format( perc_change ) }}%</span></td>

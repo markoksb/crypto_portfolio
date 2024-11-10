@@ -69,7 +69,12 @@ a.red:hover
 {
     text-decoration: none;
 }
-  
+.num-positive {
+    color: rgb(70, 240, 70);
+}
+.num-negative {
+    color: rgb(240, 70, 70);
+}
   /* layout for example */
 .box {
     display: inline-block;
