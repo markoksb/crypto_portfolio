@@ -80,9 +80,9 @@ profit/loss
                 {% set change = (total_value - total_price) %}
                 {% set perc_change = (change / total_price ) * 100  %}
                 {% if change >= 0 %}
-                    <td style="text-align: right; color: rgb(80, 200, 80)">
+                    <td style="text-align: right; color: rgb(70, 240, 70)">
                 {% else %}
-                    <td style="text-align: right; color: rgb(224, 80, 80)">
+                    <td style="text-align: right; color: rgb(240, 70, 70)">
                 {% endif %}
                 {{ "$%04.2f"|format( change ) }}<br>
                 <span style="font-size: 10pt;">{{ "%5.2f"|format( perc_change ) }}%</span></td>
