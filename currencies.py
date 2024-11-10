@@ -6,7 +6,7 @@ from database import db
 
 def get_coinlist_from_db():
     """returns all the currencies"""
-    return db.execute("SELECT * FROM currencies")
+    return db.execute("SELECT * FROM currencies ORDER BY market_cap DESC")
 
 
 def get_coin_from_db_by_id(coin_id:int):
