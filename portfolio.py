@@ -129,7 +129,7 @@ def portfolio():
     """
         accumulates data based on the users portfolio and renders the template.
     """
-    currencies.update_coin_values_and_return()
+    currencies.update_coin_values()
     coinlist = []
     if session["user_id"] == None:
         return apology("You're not logged in.", 400)

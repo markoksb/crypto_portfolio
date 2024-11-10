@@ -5,7 +5,7 @@ import cgecko
 from database import db
 
 def get_coinlist_from_db():
-    """returns all the currencies"""
+    """get all the currencies"""
     return db.execute("SELECT * FROM currencies ORDER BY market_cap DESC")
 
 
@@ -49,13 +49,11 @@ def update_currency_db() -> None:
         )
 
 
-def update_coin_values_and_return():
+def update_coin_values() -> None:
     """
-        Main function for the currencies view.\n
         Read data from DB.\n
-        Should the data not exist or is outdated, update the DB.\n
-        Render the html with the coin data.
-    """    
+        Should the data be outdated, update the DB.\n
+    """
     # get coins from the database
     coin_list = get_coinlist_from_db()
     
@@ -69,15 +67,14 @@ def update_coin_values_and_return():
     if coins_to_update != "":
         #print("updating coin data ...", end="")
         update_coin_in_db(coins_to_update)
-        coin_list = get_coinlist_from_db()
-        #print("done")
-    return coin_list
+
 
 def overview():
     """
         Main function for the currencies view.\n
     """
-    coin_list = update_coin_values_and_return()
+    update_coin_values()
+    coin_list = get_coinlist_from_db()
     # TODO: this is kinda nonsense but we need it if the DB is empty/reset or w/e
     # idea is to have a function for this that also gets more than the top100 coins (#pagination)
     if len(coin_list) < 50:
