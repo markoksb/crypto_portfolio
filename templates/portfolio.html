@@ -33,20 +33,24 @@
 </nav>
 <br>
 {% if value > 0 %}
-    current combined value is: {{ '$ %06.2f' % value }}
+    current value {{ '$ %06.2f' % value }}
 {% endif %}
 <br>
+24h change
 {% if change >= 0 %}
-    change over 24h is: {{ '+$%07.3f' % change|abs }}
+    {{ '+$%07.3f' % change|abs }}
 {% else %}
-    change over 24h is: {{ '-$%07.3f' % change|abs }}
+    {{ '-$%07.3f' % change|abs }}
 {% endif %}
 <br>
+profit/loss
 {% if pnl >= 0 %}
-    profit/loss {{ '+$%07.3f' % pnl|abs }}
+    {{ '+$%07.3f' % pnl|abs }}
 {% else %}
-    profit/loss {{ '-$%07.3f' % pnl|abs }}
+    {{ '-$%07.3f' % pnl|abs }}
 {% endif %}
+<br>
+<br>
 <div class="table-responsive">
     <table>
         <thead>
@@ -57,7 +61,7 @@
             <th style="width: 125px;">avg buy</th>
             <th style="width: 125px;">total invest</th>
             <th style="width: 125px;">value</th>
-            <th style="width: 125px;">pnl</th>
+            <th style="width: 125px; text-align: right;">pnl</th>
         </thead>
         <tbody>
             {% if coins %}
@@ -76,11 +80,11 @@
                 {% set change = (total_value - total_price) %}
                 {% set perc_change = (change / total_price ) * 100  %}
                 {% if change >= 0 %}
-                    <td style="text-align: right; color: green">
+                    <td style="text-align: right; color: rgb(80, 200, 80)">
                 {% else %}
-                    <td style="text-align: right; color: red">
+                    <td style="text-align: right; color: rgb(224, 80, 80)">
                 {% endif %}
-                {{ "$%06.2f"|format( change ) }}<br>
+                {{ "$%04.2f"|format( change ) }}<br>
                 <span style="font-size: 10pt;">{{ "%5.2f"|format( perc_change ) }}%</span></td>
             </tr>
                 {% endfor %}
