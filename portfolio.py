@@ -93,7 +93,7 @@ def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
     return coin_list
 
 
-def calculate_total_value(coin_list: list[crypto_coin]) -> int:
+def calculate_total_value(coin_list: list[crypto_coin]) -> float:
     total = 0
     for coin in coin_list:
         total += coin.current_price * coin.quantity

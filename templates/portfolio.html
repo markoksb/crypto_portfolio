@@ -33,7 +33,7 @@
 </nav>
 <br>
 {% if value > 0 %}
-    current combined value is: {{ value }}
+    current combined value is: {{ '$ %06.2f' % value }}
 {% endif %}
 <div class="table-responsive">
     <table>
