@@ -35,45 +35,46 @@
 <div class="row">
     <div class="col-md-4 col-12 container-fluid">
     {% if value > 0 %}
-        current value <span class="num-positive">{{ '$ %06.2f' % value }}</span>
+        <span class="num-positive head-size">{{ '$ %06.2f' % value }}</span><br>
+        current value
     {% endif %}
     </div>
     <div class="col-md-4 col-12 container-fluid">
-    24h change
     {% if change >= 0 %}
-        <span class="num-positive">{{ '+$ %07.3f' % change|abs }}</span>
+        <span class="num-positive head-size">{{ '+$ %07.3f' % change|abs }}</span>
     {% else %}
-        <span class="num-negative">{{ '-$ %07.3f' % change|abs }}</span>
+        <span class="num-negative head-size">{{ '-$ %07.3f' % change|abs }}</span>
     {% endif %}
+    <br>
+    24h change
     </div>
     <div class="col-md-4 col-12 container-fluid">
-    profit/loss
     {% if pnl >= 0 %}
-        <span class="num-positive">{{ '+$ %07.3f' % pnl|abs }}</span>
+        <span class="num-positive head-size">{{ '+$ %07.3f' % pnl|abs }}</span>
     {% else %}
-        <span class="num-negative">{{ '-$ %07.3f' % pnl|abs }}</span>
+        <span class="num-negative head-size">{{ '-$ %07.3f' % pnl|abs }}</span>
     {% endif %}
+    <br>
+    profit/loss
     </div>
 </div>
 <br>
-<div class="table-responsive">
-    <table>
+<div class="table-responsive" style="width: 99%">
+    <table class="" style="table-layout: fixed; width: 100%;">
         <thead>
-            <th style="width: 25px;"> </th>
-            <th style="width: 175px;">currency</th>
-            <th style="width: 125px;">current price</th>
-            <th style="width: 125px;">amount</th>
-            <th style="width: 125px;">avg buy</th>
-            <th style="width: 125px;">total invest</th>
-            <th style="width: 125px;">value</th>
-            <th style="width: 125px; text-align: right;">pnl</th>
+            <th style="width: 20%;">currency</th>
+            <th style="width: 12%;">current price</th>
+            <th style="width: 12%;">amount</th>
+            <th style="width: 12%;">avg buy</th>
+            <th style="width: 12%;">total invest</th>
+            <th style="width: 12%;">value</th>
+            <th style="width: 12%; text-align: right;">pnl</th>
         </thead>
         <tbody>
             {% if coins %}
                 {% for coin in coins %}
-            <tr style="height: 30px;">
-                <td><img src="{{ coin.icon_url }}" width="15" height="15"></td>
-                <td style="text-align: left;">{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+            <tr style="height: 35px;">
+                <td style="text-align:justify;"><img src="{{ coin.icon_url }}" width="20" height="20"> {{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                 <td>{{ coin.current_price }}</td>
                 <td>{{ (coin.quantity | float) }}</td>
                 <td>{{ coin.price | float }}</td>
@@ -95,7 +96,7 @@
                 {% endfor %}
             {% else %}
             <tr>
-                <td colspan="8">&nbsp;</td>
+                <td colspan="7">no coins in this portfolio</td>
             </tr>
             {% endif %}
         </tbody>

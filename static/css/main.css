@@ -75,6 +75,9 @@ a.red:hover
 .num-negative {
     color: rgb(240, 70, 70);
 }
+.head-size {
+    font-size: larger;
+}
   /* layout for example */
 .box {
     display: inline-block;
