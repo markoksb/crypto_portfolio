@@ -61,6 +61,33 @@ class crypto_coin(object):
         self.current_price = current_price
 
 
+def get_portfolio_entries(portfolio_id: int) -> list:
+    coin_list = None
+    try:
+        coin_list = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
+                        " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
+    except:
+        return apology("error getting portfoliodata from the database.", 500)
+    return coin_list
+
+
+def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
+    coin_list = []
+    list_of_purchases = get_portfolio_entries(portfolio_id)
+    for entry in list_of_purchases:
+        exists = False
+        for coin in coin_list:
+            if coin.id == entry["id"]:
+                coin.price = (coin.price + entry["price"]) / 2
+                coin.quantity += entry["quantity"]
+                exists = True
+
+        if exists == False:
+            ccoin = crypto_coin(id=entry["id"], icon_url=entry["icon_url"], symbol=entry["symbol"], name=entry["name"], quantity=entry["quantity"], price=entry["price"], current_price=entry["current_price"])
+            coin_list.append(ccoin)
+    return coin_list
+        
+
 @req_login.login_required
 def portfolio():
     """
@@ -77,19 +104,22 @@ def portfolio():
         if not portfolios:
             return redirect(f"/create_portfolio")
         portfolio_id = portfolios[0]["id"]
-    coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
-                       " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
-    for coin in coins:
-        for cl_coin in coinlist:
-            if cl_coin.id == coin["id"]:
-                cl_coin.price = (cl_coin.price + coin["price"]) / 2
-                cl_coin.quantity += coin["quantity"]
-                exists = True
 
-        if exists != True:                
-            ccoin = crypto_coin(id=coin["id"], icon_url=coin["icon_url"], symbol=coin["symbol"], name=coin["name"], quantity=coin["quantity"], price=coin["price"], current_price=coin["current_price"])
-            coinlist.append(ccoin)
-        exists = False
+    coinlist = generate_coin_list_for_portfolio(portfolio_id)
+
+    # coins = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
+    #                    " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
+    # for coin in coins:
+    #     for cl_coin in coinlist:
+    #         if cl_coin.id == coin["id"]:
+    #             cl_coin.price = (cl_coin.price + coin["price"]) / 2
+    #             cl_coin.quantity += coin["quantity"]
+    #             exists = True
+
+    #     if exists != True:                
+    #         ccoin = crypto_coin(id=coin["id"], icon_url=coin["icon_url"], symbol=coin["symbol"], name=coin["name"], quantity=coin["quantity"], price=coin["price"], current_price=coin["current_price"])
+    #         coinlist.append(ccoin)
+    #     exists = False
 
 
     # else:
