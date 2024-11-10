@@ -100,6 +100,19 @@ def calculate_total_value(coin_list: list[crypto_coin]) -> float:
     return total
 
 
+def calculate_change_per_coin(coin: crypto_coin, time: str = "24h") -> float:
+    if time == "24h":
+        coin_change = currencies.get_coin_from_db_by_id(coin.id)[0]["price_change_percent_24h"]
+    return ( coin_change / 100 ) * coin.current_price
+
+
+def calculate_change(coin_list: list[crypto_coin], time: str = "24h") -> float:
+    total = 0
+    for coin in coin_list: 
+        total += calculate_change_per_coin(coin, time) * coin.quantity
+    return total
+
+
 @req_login.login_required
 def portfolio():
     """
@@ -121,4 +134,4 @@ def portfolio():
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist))
+    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist))

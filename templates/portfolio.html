@@ -35,6 +35,12 @@
 {% if value > 0 %}
     current combined value is: {{ '$ %06.2f' % value }}
 {% endif %}
+<br>
+{% if change >= 0 %}
+    change over 24h is: {{ '$ %07.3f' % change }}
+{% else %}
+    change over 24h is: {{ '$ %07.3f' % change }}
+{% endif %}
 <div class="table-responsive">
     <table>
         <thead>
