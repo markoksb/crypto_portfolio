@@ -63,7 +63,7 @@ def update_coin_values_and_return():
     # check if our coin data is somewhat recent for each coin
     for coin in coin_list:
         # if not, add the coin to a csv list
-        if datetime.strptime(coin['update_date'], "%Y-%m-%d %H:%M:%S") < datetime.now() - timedelta(minutes=15):
+        if datetime.strptime(coin['update_date'], "%Y-%m-%d %H:%M:%S") < datetime.now() - timedelta(minutes=5):
             coins_to_update += f"{coin['cgid']},"
     # if list is not empty do an update
     if coins_to_update != "":
