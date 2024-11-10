@@ -131,7 +131,6 @@ def portfolio():
     """
     currencies.update_coin_values_and_return()
     coinlist = []
-    exists = False
     if session["user_id"] == None:
         return apology("You're not logged in.", 400)
     
