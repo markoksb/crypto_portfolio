@@ -144,4 +144,4 @@ def portfolio():
 
     coinlist = generate_coin_list_for_portfolio(portfolio_id)
 
-    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist), pnl=calculate_pnl(coinlist))
+    return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist), pnl=calculate_pnl(coinlist), coinchange=calculate_change_per_coin)
