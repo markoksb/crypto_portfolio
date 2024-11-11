@@ -26,7 +26,7 @@
             <tbody>
                 {% if coins %}
                     {% for coin in coins %}
-                <tr style="height: 40px;">
+                <tr class="{{ 'row-lighter' if (loop.index0 % 2) == 0 else '' }} row-topb" style="height: 40px;">
                     <td class="col-right smaller">{{ loop.index }}.&nbsp;</td>
                     <td style="text-align: left;"><img src="{{ coin.icon_url }}" width="20" height="20">&nbsp;&nbsp;{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                     <td style="text-align: right;">{{ coin.current_price }}</td>
