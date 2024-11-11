@@ -33,13 +33,13 @@
 </nav>
 <br>
 <div class="row">
-    <div class="col-md-4 col-12 container-fluid">
+    <div class="col-md-4 col-12 mb-2">
     {% if value > 0 %}
         <span class="num-positive head-size">{{ '$%05.2f' % value }}</span><br>
         current value
     {% endif %}
     </div>
-    <div class="col-md-4 col-12 container-fluid">
+    <div class="col-md-4 col-12 mb-2">
     {% if change >= 0 %}
         <span class="num-positive head-size">{{ '+$%05.2f' % change|abs }}</span>
     {% else %}
@@ -48,7 +48,7 @@
     <br>
     24h change
     </div>
-    <div class="col-md-4 col-12 container-fluid">
+    <div class="col-md-4 col-12 mb-2">
     {% if pnl >= 0 %}
         <span class="num-positive head-size">{{ '+$%05.2f' % pnl|abs }}</span>
     {% else %}
@@ -59,7 +59,7 @@
     </div>
 </div>
 <br>
-<div class="table-responsive" style="width: 99%">
+<div class="table-responsive">
     <table class="" style="table-layout: fixed; width: 100%;">
         <thead>
             <th style="width: 20%;">coin</th>
