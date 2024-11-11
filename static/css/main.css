@@ -131,8 +131,8 @@ footer p {
 }
 
 @media (max-width: 768px) {
-    .currency-table th:nth-child(5), .currency-table td:nth-child(5),
-    .currency-table th:nth-child(6), .currency-table td:nth-child(6) {
+    .currency-table th:nth-child(6), .currency-table td:nth-child(6),
+    .currency-table th:nth-child(7), .currency-table td:nth-child(7) {
         display: none;
     }
 }
