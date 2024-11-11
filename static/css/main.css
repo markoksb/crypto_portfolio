@@ -21,6 +21,12 @@ a:hover
     color: #ff0000;
 }
 
+tr.row-lighter{
+    background-color: #504646;
+}
+tr.row-topb{
+    border-top: 1px solid #444040;
+}
 
 .shadow {
     box-shadow: 0 0 8px 5px rgba(60, 150, 150, 0.1);

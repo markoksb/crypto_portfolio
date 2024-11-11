@@ -73,7 +73,7 @@
         <tbody>
             {% if coins %}
                 {% for coin in coins %}
-            <tr style="height: 35px;">
+            <tr class="{{ 'row-lighter' if (loop.index0 % 2) == 0 else '' }} row-topb" style="height: 35px;">
                 <td style="text-align:justify;"><img src="{{ coin.icon_url }}" width="20" height="20"> {{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                 <td>{{ coin.current_price }}</td>
                 <td>{{ (coin.quantity | float) }}</td>
