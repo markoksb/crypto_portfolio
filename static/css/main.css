@@ -27,6 +27,16 @@ tr.row-lighter{
 tr.row-topb{
     border-top: 1px solid #444040;
 }
+td.col-right {
+    text-align: right;
+}
+td.col-left {
+    text-align: right;
+}
+
+.smaller{
+    font-size: 0.95em;
+}
 
 .shadow {
     box-shadow: 0 0 8px 5px rgba(60, 150, 150, 0.1);

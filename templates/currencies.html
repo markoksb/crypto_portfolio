@@ -13,6 +13,7 @@
     <div class="table-responsive currency-table" style="width: 99%">
         <table class="" style="table-layout: fixed; width: 100%;">
             <thead>
+                <th style="width: 4%;">&nbsp;</th>
                 <th style="width: 30%;">coin</th>
                 <th style="width: 8%;">price $</th>
                 <th style="width: 8%;">1h</th>
@@ -20,13 +21,14 @@
                 <th style="width: 8%;">7d</th>
                 <th style="width: 8%;">30d</th>
                 <th style="width: 20%;">market cap</th>
-                <th style="width: 5%;">&nbsp;</th>
+                <th style="width: 4%;">&nbsp;</th>
             </thead>
             <tbody>
                 {% if coins %}
                     {% for coin in coins %}
                 <tr style="height: 40px;">
-                    <td style="text-align:left;"><img src="{{ coin.icon_url }}" width="20" height="20">&nbsp;&nbsp;{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+                    <td class="col-right smaller">{{ loop.index }}.&nbsp;</td>
+                    <td style="text-align: left;"><img src="{{ coin.icon_url }}" width="20" height="20">&nbsp;&nbsp;{{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
                     <td style="text-align: right;">{{ coin.current_price }}</td>
                     <td class="{{ 'num-positive' if coin.price_change_percent_1h >= 0 else 'num-negative' }}" style="text-align: right;">
                         {{ "%04.2f" % (coin.price_change_percent_1h | float) }}%
