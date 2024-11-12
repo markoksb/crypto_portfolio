@@ -83,8 +83,9 @@ def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
         exists = False
         for coin in coin_list:
             if coin.id == entry["id"]:
-                coin.price = (coin.price + entry["price"]) / 2
-                coin.quantity += entry["quantity"]
+                combined_quantity = coin.quantity + entry["quantity"]
+                coin.price = (coin.price * coin.quantity + entry["price"] * entry["quantity"]) / combined_quantity
+                coin.quantity = combined_quantity
                 exists = True
 
         if exists == False:
