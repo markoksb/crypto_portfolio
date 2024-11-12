@@ -80,20 +80,29 @@
                 <td>{{ coin.current_price }}</td>
                 {% set cng = coinchange(coin) %}
                 {% set cng_perc = ( cng / coin.current_price ) * 100 %}
-                {% if cng >= 0.005 %}
-                    <td class="num-positive">{{ "%05.3f" % cng }}<br>{{ "%5.2f" % cng_perc  }}%</td>
-                {% elif cng < 0 %}
-                    <td class="num-negative">{{ "%05.3f" % cng }}<br>{{ "%5.2f" % cng_perc }}%</td>
-                {% else %}
-                    <td class="num-positive">{{ "%.3e" % cng }}<br>{{ "%5.2f" % cng_perc }}%</td>
-                {% endif %}
+                <td class="{{ 'num-positive' if cng >= 0 else 'num-negative' }}">
+                    {% if cng >= 0.005 %}
+                        {{ "%05.3f" % cng }}<br>
+                    {% elif cng >= 0 %}
+                        {{ "%.3e" % cng }}<br>
+                    {% elif cng >= -0.005 %}
+                        {{ "%.3e" % cng }}<br>
+                    {% else %}
+                        {{ "%05.3f" % cng }}<br>
+                    {% endif %}
+                    {{ "%5.2f" % cng_perc  }}%
+                </td>
                 <td>&nbsp;</td>
-                <td>{{ (coin.quantity | float) }}</td>
-                <td>{{ coin.price | float }}</td>
+                <td>{{ coin.quantity }}</td>
+                <td>{% if coin.price > 0.005 %}
+                    {{ "%.3f" % coin.price }} 
+                    {% else %}
+                    {{ "%.3e" % coin.price }}
+                    {% endif %}</td>
                 {% set total_price = (coin.price * coin.quantity) %}
-                <td>{{ "%0.2f"|format( total_price ) }}</td>
+                <td>{{ "%.2f" % total_price }}</td>
                 {% set total_value = (coin.current_price * coin.quantity) %}
-                <td>{{ "%0.2f"|format( total_value ) }}</td>
+                <td>{{ "%.2f" % total_value }}</td>
                 
                 {% set change = (total_value - total_price) %}
                 {% set perc_change = (change / total_price ) * 100  %}
@@ -102,8 +111,8 @@
                 {% else %}
                     <td class="num-negative" style="text-align: right;">
                 {% endif %}
-                {{ "$%04.2f"|format( change ) }}<br>
-                <span style="font-size: 10pt;">{{ "%5.2f"|format( perc_change ) }}%</span></td>
+                {{ "$%04.2f" % change }}<br>
+                <span style="font-size: 10pt;">{{ "%5.2f" % perc_change }}%</span></td>
             </tr>
                 {% endfor %}
             {% else %}
