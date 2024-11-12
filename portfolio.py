@@ -19,7 +19,7 @@ def add_coin_to_portfolio():
             coin_list = currencies.get_coinlist_from_db()
             return render_template("currencies.html", coins=coin_list, portfolio_id=portfolio_id, add_coin=True)
 
-        return render_template("add_currency.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
+        return render_template("portfolio_cadd.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
 
 
 @req_login.login_required
