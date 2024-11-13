@@ -1,13 +1,16 @@
-blinker==1.8.2
-click @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/click_1699237822453/work
-Flask @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_b6zka5i2cn/croot/flask_1716545886197/work
-Flask-SQLAlchemy==3.1.1
-greenlet @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_516imz09pb/croot/greenlet_1702059966336/work
-itsdangerous @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_00jdi1gu23/croot/itsdangerous_1716533346702/work
-Jinja2 @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_44yzu12j7f/croot/jinja2_1716993410427/work
-MarkupSafe==2.1.5
-setuptools==72.1.0
-SQLAlchemy @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_3frqduvs8h/croot/sqlalchemy_1725885054432/work
-typing_extensions @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_93dg13ilv4/croot/typing_extensions_1715268840722/work
-Werkzeug @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_5bnbxlhunm/croot/werkzeug_1716533322814/work
-wheel==0.44.0
+blinker==1.9.0
+cachelib==0.13.0
+certifi==2024.8.30
+charset-normalizer==3.4.0
+click==8.1.7
+cs50==9.3.4
+Flask==3.0.3
+Flask-Session==0.8.0
+greenlet==3.1.1
+idna==3.10
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==3.0.2
+msgspec==0.18.6
+packaging==24.2
+requests==2.32.3
