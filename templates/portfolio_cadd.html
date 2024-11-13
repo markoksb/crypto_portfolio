@@ -12,15 +12,15 @@
         <input type="hidden" name="cid" value="{{ coin.id }}">
         <div class="mb-3">
             amount:
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="text" oninput="autoCalculate()">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="number" step="any" oninput="autoCalculate()">
         </div>
         <div class="mb-3">
             price:
-            <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="text" value="{{ coin.current_price }}" oninput="autoCalculate()">
+            <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="number" step="any" value="{{ coin.current_price }}" oninput="autoCalculate()">
         </div>
         <div class="mb-3">
             total:
-            <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="text" oninput="autoCalculate()">
+            <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="number" step="any" oninput="autoCalculate()">
         </div>
         <button class="btn custom-button" type="submit">add</button>
     </form>
