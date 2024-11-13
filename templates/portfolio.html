@@ -13,9 +13,9 @@
 {% if session["user_id"] %}
 <nav class="navbar navbar-expand-md navbar-light">
    
-    <div class="container-fluid" id="navbar">
-        <ul class="navbar-nav me-auto mt-2 text-nowrap">
-            <li class="nav-item"><a class="nav-link mango" href="/create_portfolio">new</a></li>
+    <div class="container" id="navbar">
+        <ul class="navbar-nav me-3 mt-1 text-nowrap">
+            <li class="nav-item"><a class="nav-link {{ 'mango' if -1 != portfolio_id|int else 'red' }}" href="/portfolio?folioid=-1">overview</a></li>
             {% for portfolio in portfolios %}
             <li class="nav-item text-nowrap">
                 <div class="nav-link">
@@ -28,6 +28,7 @@
                 </div>
             </li>
             {% endfor %}
+            <li class="nav-item"><a class="nav-link mango" href="/create_portfolio">new</a></li>
         </ul>
     </div>
 </nav>
