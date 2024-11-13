@@ -6,21 +6,21 @@
 
 {% block body %}
     <br>
-    Specify the amount and price for the bought {{ coin.name }}<br><br>
+    Specify the amount and price for the bought {{ coin.name }},<br>alternative to the amount you can specify the total<br><br>
     <form action="/add_coin" method="post">
         <input type="hidden" name="folioid" value="{{ portfolio_id }}">
         <input type="hidden" name="cid" value="{{ coin.id }}">
         <div class="mb-3">
             amount:
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="number" step="any" oninput="autoCalculate()">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="number" step="any" min="0" oninput="autoCalculate()">
         </div>
         <div class="mb-3">
-            price:
-            <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="number" step="any" value="{{ coin.current_price }}" oninput="autoCalculate()">
+            price per:
+            <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="number" step="any" min="0" value="{{ coin.current_price }}" oninput="autoCalculate()">
         </div>
         <div class="mb-3">
-            total:
-            <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="number" step="any" oninput="autoCalculate()">
+            total amount: (optional)
+            <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="number" step="any" min="0" oninput="autoCalculate()">
         </div>
         <button class="btn custom-button" type="submit">add</button>
     </form>
@@ -41,11 +41,7 @@
             const activeElement = document.activeElement;
 
             // Only calculate and update if the active field is not being changed
-            if (activeElement !== amountInput && amount && price && !total) {
-                totalInput.value = amount * price;
-            } else if (activeElement !== priceInput && amount && total && !price) {
-                priceInput.value = total / amount;
-            } else if (activeElement !== totalInput && price && total && !amount) {
+            if ( price && total) {
                 amountInput.value = total / price;
             }
         }
