@@ -8,8 +8,33 @@ def add_coin_to_portfolio():
     """add an entry for a purchase"""
     if request.method == "POST":
         portfolio_id = request.form.get("folioid")
+        res = db.execute("SELECT COUNT(*) FROM portfolios WHERE id == ?", portfolio_id)
+        if res[0]["COUNT(*)"] != 1:
+            return apology("Error finding that portfolio, sorry. :'(\nplease try again.")
+        
+        coin_id = request.form.get("cid")
+        res = db.execute("SELECT COUNT(*) FROM currencies WHERE id == ?", coin_id)
+        if res[0]["COUNT(*)"] != 1:
+            return apology("Error finding that coin, sorry. :'(\nplease try again.")
+        
+        try:
+            amount = float(request.form.get("amount"))
+        except Exception as e:
+            return apology(f"Error. Amount is not a number. {e}")
+        
+        if amount <= 0:
+            return apology("Error. Please enter a positive amount.")
+        
+        try:
+            price = float(request.form.get("price"))
+        except Exception as e:
+            return apology(f"Error. Price is not a number. {e}")
+        
+        if price <= 0:
+            return apology("Error. Please enter the actual price.")
+        
         db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
-                    portfolio_id, request.form.get("cid"), request.form.get("amount"), request.form.get("price"))
+                    portfolio_id, coin_id, amount, price)
         return redirect(f"/portfolio?folioid={portfolio_id}")
     else:
         portfolio_id = request.args.get("folioid")
