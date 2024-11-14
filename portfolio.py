@@ -173,11 +173,11 @@ def portfolio():
     
     if request.args.get("folioid") == None:
         portfolio_id = portfolios[0]["id"]
-
-    try:
-        portfolio_id = int(request.args.get("folioid"))
-    except Exception as e:
-        return apology("Error. Please send help.", 500)
+    else:
+        try:
+            portfolio_id = int(request.args.get("folioid"))
+        except Exception as e:
+            return apology("Error. Please send help.", 500)
 
     if portfolio_id == -1:
         coinlist = generate_coin_list_for_overview(portfolios)
