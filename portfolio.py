@@ -172,7 +172,7 @@ def portfolio():
         return redirect(f"/create_portfolio")
     
     if request.args.get("folioid") == None:
-        portfolio_id = portfolios[0]["id"]
+        portfolio_id = -1
     else:
         try:
             portfolio_id = int(request.args.get("folioid"))
