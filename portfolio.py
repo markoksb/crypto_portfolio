@@ -44,7 +44,33 @@ def add_coin_to_portfolio():
             coin_list = currencies.get_coinlist_from_db()
             return render_template("currencies.html", coins=coin_list, portfolio_id=portfolio_id, add_coin=True)
 
-        return render_template("portfolio_cadd.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0])
+        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0], request=request)
+
+def rem_coin_from_portfolio():
+    """add an entry for a sell"""
+    if request.method == "POST":
+        # TODO add checks
+        portfolio_id = request.form.get("folioid")
+        coin_id = request.form.get("cid")
+        amount = float(request.form.get("amount"))
+        price = float(request.form.get("total")) / amount
+        amount *= -1
+        db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
+                    portfolio_id, coin_id, amount, price)
+        return redirect(f"/portfolio?folioid={portfolio_id}")
+    
+    else:
+        # TODO add checks
+        portfolio_id = request.args.get("folioid")
+        currency_id = request.args.get("cid")
+
+        res = db.execute("SELECT quantity FROM portfolio_currency WHERE portfolio_id == ? AND cryptocurrency_id == ?",
+                    portfolio_id, currency_id)
+        quantity = 0
+        for row in res:
+            quantity += row["quantity"]
+
+        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0], request=request, amount_max=quantity)
 
 
 @req_login.login_required
@@ -109,8 +135,12 @@ def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = None) 
         exists = False
         for coin in coin_list:
             if coin.id == entry["id"]:
-                combined_quantity = coin.quantity + entry["quantity"]
-                coin.price = (coin.price * coin.quantity + entry["price"] * entry["quantity"]) / combined_quantity
+                if int(entry["quantity"]) < 0:
+                    combined_quantity = coin.quantity + entry["quantity"]
+                    
+                else:
+                    combined_quantity = coin.quantity + entry["quantity"]
+                    coin.price = (coin.price * coin.quantity + entry["price"] * entry["quantity"]) / combined_quantity
                 coin.quantity = combined_quantity
                 exists = True
 

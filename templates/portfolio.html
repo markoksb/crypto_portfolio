@@ -63,69 +63,77 @@
 <div class="table-responsive">
     <table style="width: 100%;">
         <thead>
-            <th style="width: 20%;">coin</th>
+            <th style="width: 18%;">coin</th>
             <th style="width: 10%;">current price</th>
             <th style="width: 10%;">24h change</th>
             <th style="width: 2%;">&nbsp;</th>
-            <th style="width: 12%;">amount</th>
-            <th style="width: 12%;">avg buy</th>
-            <th style="width: 12%;">total invest</th>
-            <th style="width: 12%;">value</th>
-            <th style="width: 12%; text-align: right;">pnl</th>
+            <th style="width: 10%;">amount</th>
+            <th style="width: 10%;">avg buy</th>
+            <th style="width: 10%;">total invest</th>
+            <th style="width: 10%;">value</th>
+            <th style="width: 10%; text-align: right;">pnl</th>
+            {% if portfolio_id != -1 %}
+            <th style="width: 10%;">action</th>
+            {% endif %}
         </thead>
         <tbody>
             {% if coins %}
                 {% for coin in coins %}
-            <tr class="{{ 'row-lighter' if (loop.index0 % 2) == 0 else '' }} row-topb" style="height: 35px;">
-                <td style="text-align:justify;"><img src="{{ coin.icon_url }}" width="20" height="20"> {{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
-                <td>{{ coin.current_price }}</td>
-                {% set cng = coinchange(coin) %}
-                {% set cng_perc = ( cng / coin.current_price ) * 100 %}
-                <td class="{{ 'num-positive' if cng >= 0 else 'num-negative' }}">
-                    {% if cng >= 0.005 %}
-                        {{ "%05.3f" % cng }}<br>
-                    {% elif cng >= 0 %}
-                        {{ "%.3e" % cng }}<br>
-                    {% elif cng >= -0.005 %}
-                        {{ "%.3e" % cng }}<br>
-                    {% else %}
-                        {{ "%05.3f" % cng }}<br>
+                    {% if coin.quantity != 0 %}
+                    <tr class="{{ 'row-lighter' if (loop.index0 % 2) == 0 else '' }} row-topb" style="height: 35px;">
+                        <td style="text-align:justify;"><img src="{{ coin.icon_url }}" width="20" height="20"> {{ coin.name }} (<span style="font-size: smaller;">{{ coin.symbol }}</span>)</td>
+                        <td>{{ coin.current_price }}</td>
+                        {% set cng = coinchange(coin) %}
+                        {% set cng_perc = ( cng / coin.current_price ) * 100 %}
+                        <td class="{{ 'num-positive' if cng >= 0 else 'num-negative' }}">
+                            {% if cng >= 0.005 %}
+                                {{ "%05.3f" % cng }}<br>
+                            {% elif cng >= 0 %}
+                                {{ "%.3e" % cng }}<br>
+                            {% elif cng >= -0.005 %}
+                                {{ "%.3e" % cng }}<br>
+                            {% else %}
+                                {{ "%05.3f" % cng }}<br>
+                            {% endif %}
+                            {{ "%5.2f" % cng_perc  }}%
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>{{ coin.quantity }}</td>
+                        <td>{% if coin.price > 0.005 %}
+                            {{ "%.3f" % coin.price }} 
+                            {% else %}
+                            {{ "%.3e" % coin.price }}
+                            {% endif %}</td>
+                        {% set total_price = (coin.price * coin.quantity) %}
+                        <td>{{ "%.2f" % total_price }}</td>
+                        {% set total_value = (coin.current_price * coin.quantity) %}
+                        <td>{{ "%.2f" % total_value }}</td>
+                        
+                        {% set change = (total_value - total_price) %}
+                        {% set perc_change = (change / total_price ) * 100  %}
+                        {% if change >= 0 %}
+                            <td class="num-positive" style="text-align: right;">
+                        {% else %}
+                            <td class="num-negative" style="text-align: right;">
+                        {% endif %}
+                        {{ "$%04.2f" % change }}<br>
+                        <span style="font-size: 10pt;">{{ "%5.2f" % perc_change }}%</span></td>
+                        {% if portfolio_id != -1 %}
+                        <td><a href="/coin_add?folioid={{portfolio_id}}&cid={{coin.id}}">buy</a> | <a href="/coin_rem?folioid={{portfolio_id}}&cid={{coin.id}}">sell</a></td>
+                        {% endif %}
+                    </tr>
                     {% endif %}
-                    {{ "%5.2f" % cng_perc  }}%
-                </td>
-                <td>&nbsp;</td>
-                <td>{{ coin.quantity }}</td>
-                <td>{% if coin.price > 0.005 %}
-                    {{ "%.3f" % coin.price }} 
-                    {% else %}
-                    {{ "%.3e" % coin.price }}
-                    {% endif %}</td>
-                {% set total_price = (coin.price * coin.quantity) %}
-                <td>{{ "%.2f" % total_price }}</td>
-                {% set total_value = (coin.current_price * coin.quantity) %}
-                <td>{{ "%.2f" % total_value }}</td>
-                
-                {% set change = (total_value - total_price) %}
-                {% set perc_change = (change / total_price ) * 100  %}
-                {% if change >= 0 %}
-                    <td class="num-positive" style="text-align: right;">
-                {% else %}
-                    <td class="num-negative" style="text-align: right;">
-                {% endif %}
-                {{ "$%04.2f" % change }}<br>
-                <span style="font-size: 10pt;">{{ "%5.2f" % perc_change }}%</span></td>
-            </tr>
                 {% endfor %}
             {% else %}
             <tr>
-                <td colspan="9">no coins in this portfolio</td>
+                <td colspan="10">no coins in this portfolio</td>
             </tr>
             {% endif %}
         </tbody>
     </table>
 </div>
 <br>
-<a class="mango" href="/add_coin?folioid={{portfolio_id}}">add currency</a>&nbsp;&nbsp;|&nbsp;
+<a class="mango" href="/coin_add?folioid={{portfolio_id}}">add currency</a>&nbsp;&nbsp;|&nbsp;
 <a class="mango" href="/portfolio?tr=1">show transactions</a>
 
 {% endif %}
