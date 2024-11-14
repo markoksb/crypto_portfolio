@@ -6,23 +6,30 @@
 
 {% block body %}
     <br>
-    Specify the amount and price for the bought {{ coin.name }},<br>alternative to the amount you can specify the total<br><br>
-    <form action="/add_coin" method="post">
+    Specify the amount 
+    {% if request.path == "/coin_add" %} 
+        bought and the price per {{ coin.name }},<br>instead of the amount you can specify the total.<br><br>
+    {% else %}
+        sold. And the proceeds.
+    {% endif %}
+    <form action="{{ request.path }}" method="post">
         <input type="hidden" name="folioid" value="{{ portfolio_id }}">
         <input type="hidden" name="cid" value="{{ coin.id }}">
         <div class="mb-3">
             amount:
-            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="number" step="any" min="0" oninput="autoCalculate()">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto custom-input" name="amount" id="amount" placeholder="amount" type="number" step="any" min="0" value="{{ amount_max }}" oninput="autoCalculate()">
         </div>
+        {% if request.path == "/coin_add" %} 
         <div class="mb-3">
             price per:
             <input class="form-control mx-auto w-auto custom-input" name="price" id="price" placeholder="price" type="number" step="any" min="0" value="{{ coin.current_price }}" oninput="autoCalculate()">
         </div>
+        {% endif %}
         <div class="mb-3">
-            total amount: (optional)
+            value total:
             <input class="form-control mx-auto w-auto custom-input" name="total" id="total" placeholder="total" type="number" step="any" min="0" oninput="autoCalculate()">
         </div>
-        <button class="btn custom-button" type="submit">add</button>
+        <button class="btn custom-button" type="submit">{{ 'add' if request.path == "/coin_add" else 'remove' }}</button>
     </form>
     <script>
         // TODO: gotta rethink this JS
