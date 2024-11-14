@@ -100,8 +100,10 @@ def get_portfolio_entries(portfolio_id: int) -> list:
     return coin_list
 
 
-def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = []) -> list:
+def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = None) -> list:
     """generates a list of coins from the database entries made to the given portfolio"""
+    if coin_list == None:
+        coin_list = []
     list_of_purchases = get_portfolio_entries(portfolio_id)
     for entry in list_of_purchases:
         exists = False
