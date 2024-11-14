@@ -96,7 +96,7 @@ def get_portfolio_entries(portfolio_id: int) -> list:
         coin_list = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
                         " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
     except:
-        return apology("error getting portfoliodata from the database.", 500)
+        return apology("error getting portfolio data from the database.", 500)
     return coin_list
 
 
