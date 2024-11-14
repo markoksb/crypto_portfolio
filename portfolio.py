@@ -100,9 +100,8 @@ def get_portfolio_entries(portfolio_id: int) -> list:
     return coin_list
 
 
-def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
+def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = []) -> list:
     """generates a list of coins from the database entries made to the given portfolio"""
-    coin_list = []
     list_of_purchases = get_portfolio_entries(portfolio_id)
     for entry in list_of_purchases:
         exists = False
@@ -116,6 +115,13 @@ def generate_coin_list_for_portfolio(portfolio_id: int) -> list:
         if exists == False:
             ccoin = crypto_coin(id=entry["id"], icon_url=entry["icon_url"], symbol=entry["symbol"], name=entry["name"], quantity=entry["quantity"], price=entry["price"], current_price=entry["current_price"])
             coin_list.append(ccoin)
+    return coin_list
+
+
+def generate_coin_list_for_overview(portfolio_list: list) -> list:
+    coin_list = []
+    for portfolio in portfolio_list:
+        generate_coin_list_for_portfolio(portfolio["id"], coin_list)
     return coin_list
 
 
@@ -163,11 +169,19 @@ def portfolio():
     if not portfolios:
         return redirect(f"/create_portfolio")
     
-    portfolio_id = request.args.get("folioid")
-    if portfolio_id == None:
+    if request.args.get("folioid") == None:
         portfolio_id = portfolios[0]["id"]
 
-    coinlist = generate_coin_list_for_portfolio(portfolio_id)
+    try:
+        portfolio_id = int(request.args.get("folioid"))
+    except Exception as e:
+        return apology("Error. Please send help.", 500)
+
+    if portfolio_id == -1:
+        coinlist = generate_coin_list_for_overview(portfolios)
+    else:
+        coinlist = generate_coin_list_for_portfolio(portfolio_id)
+
     coinlist.sort(key=lambda coin: calculate_pnl_per_coin(coin), reverse=True)
 
     return render_template("portfolio.html",  portfolio_id=portfolio_id, portfolios=portfolios, coins=coinlist, value=calculate_total_value(coinlist), change=calculate_change(coinlist), pnl=calculate_pnl(coinlist), coinchange=calculate_change_per_coin)
