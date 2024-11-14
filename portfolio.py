@@ -171,6 +171,12 @@ def portfolio():
     if not portfolios:
         return redirect(f"/create_portfolio")
     
+    if request.args.get("tr") == "1":
+        entries = []
+        for portfolio in portfolios:
+            entries += get_portfolio_entries(portfolio["id"])
+        return render_template("transactions.html", entries=entries)
+
     if request.args.get("folioid") == None:
         portfolio_id = -1
     else:

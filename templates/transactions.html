@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+- Portfolios
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+{% if session["user_id"] %}
+<br>
+<div class="table-responsive">
+    <table style="width: 100%;">
+        <thead>
+            <th style="width: 30%;">coin</th>
+            <th style="width: 20%;">amount</th>
+            <th style="width: 20%;">price in usd</th>
+            <th style="width: 20%;">total price in usd</th>
+        </thead>
+        <tbody>
+            {% if entries %}
+                {% for entry in entries %}
+            <tr class="{{ 'row-lighter' if (loop.index0 % 2) == 0 else '' }} row-topb" style="height: 35px;">
+                <td style="text-align:justify;"><img src="{{ entry.icon_url }}" width="20" height="20"> {{ entry.name }} (<span style="font-size: smaller;">{{ entry.symbol }}</span>)</td>
+                <td>{{ entry.quantity }}</td>
+                <td>{% if entry.price > 0.005 %}
+                    {{ "%.3f" % entry.price }} 
+                    {% else %}
+                    {{ "%.3e" % entry.price }}
+                    {% endif %}</td>
+                {% set total_price = (entry.price * entry.quantity) %}
+                <td>{{ "%.2f" % total_price }}</td>
+            </tr>
+                {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="9">no transactions found</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+<br>
+
+{% endif %}
+{% endblock %}
