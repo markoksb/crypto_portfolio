@@ -32,7 +32,7 @@
                     {{ "%.3e" % entry.price }}
                     {% endif %}</td>
                 {% set total_price = (entry.price * entry.quantity) %}
-                <td>{{ "%.2f" % total_price }}</td>
+                <td>{{ "%.2f" % total_price|abs }}</td>
             </tr>
                 {% endfor %}
             {% else %}
