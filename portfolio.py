@@ -274,11 +274,11 @@ def portfolio():
     if request.args.get("tr") == "1":
         if portfolio_id > 0:
             entries = get_portfolio_entries(portfolio_id)
-            return render_template("transactions.html", entries=entries)
+            return render_template("transactions.html", entries=entries, portfolio_id=portfolio_id)
         entries = []
         for portfolio in portfolios:
             entries += get_portfolio_entries(portfolio["id"])
-        return render_template("transactions.html", entries=entries)
+        return render_template("transactions.html", entries=entries, portfolio_id=portfolio_id)
 
     if portfolio_id == -1:
         coinlist = generate_coin_list_for_overview(portfolios)
