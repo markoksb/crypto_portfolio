@@ -40,7 +40,7 @@ cryptofolio/
 ├── currencies.py                   # generates the coin list and updates its prices
 ├── database_schema.py              # strings to (re-)create the database
 ├── database.py                     # database functions
-├── error.py                        # genrates error messages and char escapes
+├── error.py                        # generates error messages and char escapes
 ├── key.py                          # contains coingecko api key (not shared)
 ├── portfolio.db                    # SQLite database file (example data)
 ├── portfolio.py                    # aggregate and calculate data for each portfolio
