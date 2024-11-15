@@ -93,8 +93,8 @@ def get_portfolio_entries(portfolio_id: int) -> list:
     """gets all the purchase entries for the given portfolio"""
     coin_list = None
     try:
-        coin_list = db.execute("SELECT * FROM portfolio_currency INNER JOIN currencies ON " \
-                        " cryptocurrency_id = currencies.id WHERE portfolio_id = ? ", portfolio_id)
+        coin_list = db.execute("SELECT *, portfolio_currency.id AS id, currencies.id AS cid FROM portfolio_currency INNER JOIN currencies ON " \
+                        " portfolio_currency.cryptocurrency_id = cid WHERE portfolio_id = ? ", portfolio_id)
     except:
         return apology("error getting portfolio data from the database.", 500)
     return coin_list
@@ -108,7 +108,7 @@ def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = None) 
     for entry in list_of_entries:
         exists = False
         for coin in coin_list:
-            if coin.id == entry["id"]:
+            if coin.id == entry["cid"]:
                 if entry["quantity"] < 0:
                     combined_quantity = coin.quantity + entry["quantity"]
                 else:
@@ -118,7 +118,7 @@ def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = None) 
                 exists = True
 
         if exists == False:
-            ccoin = crypto_coin(id=entry["id"], icon_url=entry["icon_url"], symbol=entry["symbol"], name=entry["name"], quantity=entry["quantity"], price=entry["price"], current_price=entry["current_price"])
+            ccoin = crypto_coin(id=entry["cid"], icon_url=entry["icon_url"], symbol=entry["symbol"], name=entry["name"], quantity=entry["quantity"], price=entry["price"], current_price=entry["current_price"])
             coin_list.append(ccoin)
     return coin_list
 
@@ -159,6 +159,24 @@ def calculate_pnl(coin_list: list[crypto_coin]) -> float:
     for coin in coin_list: 
         total += calculate_pnl_per_coin(coin)
     return total
+
+
+@req_login.login_required
+def rem_transaction():
+    portfolio_id = validate_int_positive(request.args.get("folioid"), "PortfolioID")
+    if isinstance(portfolio_id, str):
+        return apology(f"Error: {portfolio_id}")
+    if not validate_id_in_table("portfolios", portfolio_id):
+        return apology("Error finding entry\nplease try again.")
+    
+    entry_id = validate_int_positive(request.args.get("entryid"), "EntryID")
+    if isinstance(entry_id, str):
+        return apology(f"Error: {entry_id}")
+    if not validate_id_in_table("portfolio_currency", entry_id):
+        return apology("Error finding entry\nplease try again.")
+    
+    db.execute("DELETE FROM portfolio_currency WHERE id = ?", entry_id)
+    return redirect(f"/portfolio?folioid={portfolio_id}&tr=1")
 
 
 @req_login.login_required

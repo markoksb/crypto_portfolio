@@ -15,10 +15,11 @@
 <div class="table-responsive">
     <table style="width: 100%;">
         <thead>
-            <th style="width: 30%;">coin</th>
+            <th style="width: 35%;">coin</th>
             <th style="width: 20%;">amount</th>
             <th style="width: 20%;">price in usd</th>
             <th style="width: 20%;">total price in usd</th>
+            <th style="width: 5%;">action</th>
         </thead>
         <tbody>
             {% if entries %}
@@ -33,6 +34,7 @@
                     {% endif %}</td>
                 {% set total_price = (entry.price * entry.quantity) %}
                 <td>{{ "%.2f" % total_price|abs }}</td>
+                <td><a href="/transaction_remove?folioid={{ portfolio_id }}&entryid={{ entry.id }}"><img src="/static/img/cross.png" width="10px" height="10px" alt="remove"></a></td>
             </tr>
                 {% endfor %}
             {% else %}

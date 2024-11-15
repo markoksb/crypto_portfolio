@@ -31,6 +31,7 @@ app.add_url_rule("/create_portfolio", view_func=portfolio.create, methods=["GET"
 app.add_url_rule("/delete_portfolio", view_func=portfolio.delete, methods=["GET", "POST"])
 app.add_url_rule("/coin_add", view_func=portfolio.add_coin_to_portfolio, methods=["GET", "POST"])
 app.add_url_rule("/coin_rem", view_func=portfolio.rem_coin_from_portfolio, methods=["GET", "POST"])
+app.add_url_rule("/transaction_remove", view_func=portfolio.rem_transaction, methods=["GET"])
 
 
 @app.route("/")
