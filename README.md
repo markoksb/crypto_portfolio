@@ -16,36 +16,37 @@ These features will be part of future development, enhancing Cryptofolio's value
 #### Structure
 ```
 cryptofolio/
-├── static/                     # Contains static files like CSS, JS, images
+├── static/                         # Contains static files like CSS, JS, images
 │   ├── css/
-│   │   └── main.css            # Main stylesheet
+│   │   └── main.css                # Main stylesheet
 │   ├── img/
-│   │   └── cross.png           # icon for portfolio deletion
-│   └── favicon.ico             # favorite icon
-├── templates/                  # HTML templates for Jinja rendering
-│   ├── base.html               # Base template - html header, footer and navigation
-│   ├── currencies.html         # Currency page - a table of the most important coins
-│   ├── error.html              # Displays error messages #memegen
-│   ├── index.html              # Homepage
-│   ├── login.html              # User login form
-│   ├── portfolio_cadd.html     # Form to add a coin to a portfolio
-│   ├── portfolio_del.html      # Portfolio deletion form
-│   ├── portfolio_new.html      # Portfolio creation form
-│   ├── portfolio.html          # Portfolio page - Overview and portfolio subnav
-│   └── register.html           # User registration form
-├── app.py                      # Main Flask application - config and routing
-├── cgecko.py                   # CoinGecko API implementations
-├── currencies.py               # generates the coin list and updates its prices
-├── database_schema.py          # strings to (re-)create the database
-├── database.py                 # database functions
-├── error.py                    # genrates error messages and char escapes
-├── key.py                      # contains coingecko api key (not shared)
-├── portfolio.db                # SQLite database file (example data)
-├── portfolio.py                # aggregate and calculate data for each portfolio
-├── README.md                   # Documentation file (this file)
-├── req_login.py                # login_required decorator
-├── requirements.txt            # Project dependencies
-└── users.py                    # handling of user login/logout and registration
+│   │   └── cross.png               # icon for portfolio deletion
+│   └── favicon.ico                 # favorite icon
+├── templates/                      # HTML templates for Jinja rendering
+│   ├── base.html                   # Base template - html header, footer and navigation
+│   ├── currencies.html             # Currency page - a table of the most important coins
+│   ├── error.html                  # Displays error messages #memegen
+│   ├── index.html                  # Homepage
+│   ├── login.html                  # User login form
+│   ├── portfolio_del.html          # Portfolio deletion form
+│   ├── portfolio_new.html          # Portfolio creation form
+│   ├── portfolio_transaction.html  # Form to add or remove a coin
+│   ├── portfolio.html              # Portfolio page - Overview and portfolio subnav
+│   └── register.html               # User registration form
+│   └── transactions.html           # View to transactions
+├── app.py                          # Main Flask application - config and routing
+├── cgecko.py                       # CoinGecko API implementations
+├── currencies.py                   # generates the coin list and updates its prices
+├── database_schema.py              # strings to (re-)create the database
+├── database.py                     # database functions
+├── error.py                        # genrates error messages and char escapes
+├── key.py                          # contains coingecko api key (not shared)
+├── portfolio.db                    # SQLite database file (example data)
+├── portfolio.py                    # aggregate and calculate data for each portfolio
+├── README.md                       # Documentation file (this file)
+├── req_login.py                    # login_required decorator
+├── requirements.txt                # Project dependencies
+└── users.py                        # handling of user login/logout and registration
 ```
 
 #### Challenges and Learning Outcomes
