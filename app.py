@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template
 from flask_session import Session
 
 import users, currencies, portfolio
+from error import apology
 
 app = Flask(__name__)
 
@@ -42,6 +43,14 @@ def index():
 def imprint():
     """Home route"""
     return render_template("imprint.html")
+
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    if hasattr(e, "code"):
+        return apology(f"Error: {str(e)}", e.code)
+    else:
+        return apology(f"Error: {str(e)}", 500)
 
 
 if __name__ == "__main__":
