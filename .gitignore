@@ -14,3 +14,5 @@ bybit.py
 
 req.txt
 dockerfile
+
+*_test.py
