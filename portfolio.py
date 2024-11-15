@@ -3,74 +3,20 @@ import currencies, req_login
 from error import apology
 from database import db
 
-@req_login.login_required
-def add_coin_to_portfolio():
-    """add an entry for a purchase"""
-    if request.method == "POST":
-        portfolio_id = request.form.get("folioid")
-        res = db.execute("SELECT COUNT(*) FROM portfolios WHERE id == ?", portfolio_id)
-        if res[0]["COUNT(*)"] != 1:
-            return apology("Error finding that portfolio, sorry. :'(\nplease try again.")
-        
-        coin_id = request.form.get("cid")
-        res = db.execute("SELECT COUNT(*) FROM currencies WHERE id == ?", coin_id)
-        if res[0]["COUNT(*)"] != 1:
-            return apology("Error finding that coin, sorry. :'(\nplease try again.")
-        
-        try:
-            amount = float(request.form.get("amount"))
-        except Exception as e:
-            return apology(f"Error. Amount is not a number. {e}")
-        
-        if amount <= 0:
-            return apology("Error. Please enter a positive amount.")
-        
-        try:
-            price = float(request.form.get("price"))
-        except Exception as e:
-            return apology(f"Error. Price is not a number. {e}")
-        
-        if price <= 0:
-            return apology("Error. Please enter the actual price.")
-        
-        db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
-                    portfolio_id, coin_id, amount, price)
-        return redirect(f"/portfolio?folioid={portfolio_id}")
-    else:
-        portfolio_id = request.args.get("folioid")
-        currency_id = request.args.get("cid")
-        if currency_id == None:
-            # get coins from the database
-            coin_list = currencies.get_coinlist_from_db()
-            return render_template("currencies.html", coins=coin_list, portfolio_id=portfolio_id, add_coin=True)
+class crypto_coin(object):
+    def __init__(self, id, icon_url, symbol, name, quantity, price, current_price):
+        self.id = id
+        self.icon_url = icon_url
+        self.symbol = symbol
+        self.name = name
+        self.quantity = quantity
+        self.price = price
+        self.current_price = current_price
 
-        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0], request=request)
-
-def rem_coin_from_portfolio():
-    """add an entry for a sell"""
-    if request.method == "POST":
-        # TODO add checks
-        portfolio_id = request.form.get("folioid")
-        coin_id = request.form.get("cid")
-        amount = float(request.form.get("amount"))
-        price = float(request.form.get("total")) / amount
-        amount *= -1
-        db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
-                    portfolio_id, coin_id, amount, price)
-        return redirect(f"/portfolio?folioid={portfolio_id}")
-    
-    else:
-        # TODO add checks
-        portfolio_id = request.args.get("folioid")
-        currency_id = request.args.get("cid")
-
-        res = db.execute("SELECT quantity FROM portfolio_currency WHERE portfolio_id == ? AND cryptocurrency_id == ?",
-                    portfolio_id, currency_id)
-        quantity = 0
-        for row in res:
-            quantity += row["quantity"]
-
-        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0], request=request, amount_max=quantity)
+    def __str__(self):
+        return (f"Crypto Coin [ID: {self.id}, Symbol: {self.symbol}, Name: {self.name}, "
+                f"Quantity: {self.quantity}, Purchase Price: ${self.price:.2f}, "
+                f"Current Price: ${self.current_price:.2f}]")
 
 
 @req_login.login_required
@@ -104,20 +50,43 @@ def create():
     
     return render_template("portfolio_new.html")
 
-class crypto_coin(object):
-    def __init__(self, id, icon_url, symbol, name, quantity, price, current_price):
-        self.id = id
-        self.icon_url = icon_url
-        self.symbol = symbol
-        self.name = name
-        self.quantity = quantity
-        self.price = price
-        self.current_price = current_price
 
-    def __str__(self):
-        return (f"Crypto Coin [ID: {self.id}, Symbol: {self.symbol}, Name: {self.name}, "
-                f"Quantity: {self.quantity}, Purchase Price: ${self.price:.2f}, "
-                f"Current Price: ${self.current_price:.2f}]")
+def validate_float_positive(value, name: str):
+    """Validate value to be a positive number"""
+    try:
+        val = float(value)
+        if val < 0:
+            raise ValueError(f"{name} must be positive.")
+        return val
+    except ValueError as e:
+        return str(e)
+    except Exception as e:
+        return str(e)
+    
+
+def validate_int_positive(value, name: str):
+    """Validate value to be a positive integer"""
+    try:
+        val = int(value)
+        if val < 0:
+            raise ValueError(f"{name} must be positive.")
+        return val
+    except ValueError as e:
+        return str(e)
+    except Exception as e:
+        return str(e)
+
+
+def validate_id_in_table(table_name: str, id_value: int, id_name: str = "id") -> bool:
+    """Check if an ID exists in the specified table."""
+    return db.execute(f"SELECT COUNT(*) FROM {table_name} WHERE {id_name} == ?", id_value)[0]["COUNT(*)"] == 1
+
+
+def get_total_quantity(portfolio_id: int, coin_id: int) -> float:
+        """Summerize the quantity of a specific coin in a portfolio."""
+        res = db.execute("SELECT quantity FROM portfolio_currency WHERE portfolio_id == ? AND cryptocurrency_id == ?",
+                    portfolio_id, coin_id)
+        return sum(row["quantity"] for row in res)
 
 
 def get_portfolio_entries(portfolio_id: int) -> list:
@@ -190,6 +159,95 @@ def calculate_pnl(coin_list: list[crypto_coin]) -> float:
     for coin in coin_list: 
         total += calculate_pnl_per_coin(coin)
     return total
+
+
+@req_login.login_required
+def add_coin_to_portfolio():
+    """add an entry for a purchase"""
+    if request.method == "POST":
+        portfolio_id = validate_int_positive(request.form.get("folioid"), "PortfolioID")
+        if isinstance(portfolio_id, str):
+            return apology(f"Error: {portfolio_id}")
+        if not validate_id_in_table("portfolios", portfolio_id):
+            return apology("Error finding the portfolio\nplease try again.")
+        
+        coin_id = validate_int_positive(request.form.get("cid"), "CoinID")
+        if isinstance(coin_id, str):
+            return apology(f"Error: {coin_id}")
+        if not validate_id_in_table("currencies", coin_id):
+            return apology("Error finding that coin\nplease try again.")
+        
+        amount = validate_float_positive(request.form.get("amount"), "Amount")
+        if isinstance(amount, str):
+            return apology(f"Error: {amount}")
+        
+        price = validate_float_positive(request.form.get("price"), "Price")
+        if isinstance(price, str):
+            return apology(f"Error: {price}")
+        
+        db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
+                    portfolio_id, coin_id, amount, price)
+        return redirect(f"/portfolio?folioid={portfolio_id}")
+    else:
+        portfolio_id = validate_int_positive(request.args.get("folioid"), "PortfolioID")
+        if isinstance(portfolio_id, str):
+            return apology(f"Error: {portfolio_id}")
+        if not validate_id_in_table("portfolios", portfolio_id):
+            return apology("Error finding the portfolio\nplease try again.")
+        
+        currency_id = request.args.get("cid")
+        if currency_id == None:
+            # get coins from the database
+            coin_list = currencies.get_coinlist_from_db()
+            return render_template("currencies.html", coins=coin_list, portfolio_id=portfolio_id, add_coin=True)
+
+        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(currency_id)[0], request=request)
+    
+
+def rem_coin_from_portfolio():
+    """add an entry for a sell"""
+    if request.method == "POST":
+        portfolio_id = validate_int_positive(request.form.get("folioid"), "PortfolioID")
+        if isinstance(portfolio_id, str):
+            return apology(f"Error: {portfolio_id}")
+        if not validate_id_in_table("portfolios", portfolio_id):
+            return apology("Error finding the portfolio\nplease try again.")
+        
+        coin_id = validate_int_positive(request.form.get("cid"), "CoinID")
+        if isinstance(coin_id, str):
+            return apology(f"Error: {coin_id}")
+        if not validate_id_in_table("currencies", coin_id):
+            return apology("Error finding that coin\nplease try again.")
+        
+        amount = validate_float_positive(request.form.get("amount"), "Amount")
+        if isinstance(amount, str):
+            return apology(f"Error: {amount}")
+        
+        total = validate_float_positive(request.form.get("total"), "Total")
+        if isinstance(total, str):
+            return apology(f"Error: {total}")
+        
+        price = total / amount
+        amount *= -1
+        db.execute("INSERT INTO portfolio_currency (portfolio_id, cryptocurrency_id, quantity, price) VALUES (?, ?, ?, ?)",
+                    portfolio_id, coin_id, amount, price)
+        return redirect(f"/portfolio?folioid={portfolio_id}")
+    
+    else:
+        portfolio_id = validate_int_positive(request.args.get("folioid"), "PortfolioID")
+        if isinstance(portfolio_id, str):
+            return apology(f"Error: {portfolio_id}")
+        if not validate_id_in_table("portfolios", portfolio_id):
+            return apology("Error finding the portfolio\nplease try again.")
+        
+        coin_id = validate_int_positive(request.args.get("cid"), "PortfolioID")
+        if isinstance(coin_id, str):
+            return apology(f"Error: {coin_id}")
+        if not validate_id_in_table("currencies", coin_id):
+            return apology("Error finding the portfolio\nplease try again.")
+
+        quantity = get_total_quantity(portfolio_id, coin_id)
+        return render_template("portfolio_transaction.html", portfolio_id=portfolio_id, coin=currencies.get_coin_from_db_by_id(coin_id)[0], request=request, amount_max=quantity)
 
 
 @req_login.login_required
