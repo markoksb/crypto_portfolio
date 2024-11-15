@@ -98,7 +98,14 @@
                             {{ "%5.2f" % cng_perc  }}%
                         </td>
                         <td>&nbsp;</td>
-                        <td>{{ coin.quantity }}</td>
+                        <td>
+                            {% set digits = (coin.quantity|string).split('.')[1]|length %}
+                            {% if digits > 8 %}
+                                {{ "%0.8f" % coin.quantity }}
+                            {% else %}
+                                {{ "{0:.{1}f}".format(coin.quantity, digits) }}
+                            {% endif %}
+                        </td>
                         <td>{% if coin.price > 0.005 %}
                             {{ "%.3f" % coin.price }} 
                             {% else %}
