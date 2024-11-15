@@ -1,4 +1,4 @@
-from flask import Flask, redirect
+from flask import Flask, redirect, render_template
 from flask_session import Session
 
 import users, currencies, portfolio
@@ -36,6 +36,12 @@ app.add_url_rule("/coin_rem", view_func=portfolio.rem_coin_from_portfolio, metho
 def index():
     """Home route"""
     return redirect("/currencies")
+
+
+@app.route("/imprint")
+def imprint():
+    """Home route"""
+    return render_template("imprint.html")
 
 
 if __name__ == "__main__":

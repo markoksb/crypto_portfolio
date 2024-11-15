@@ -26,6 +26,7 @@ cryptofolio/
 │   ├── base.html                   # Base template - html header, footer and navigation
 │   ├── currencies.html             # Currency page - a table of the most important coins
 │   ├── error.html                  # Displays error messages #memegen
+│   ├── imprint.html                # View to legal info
 │   ├── index.html                  # Homepage
 │   ├── login.html                  # User login form
 │   ├── portfolio_del.html          # Portfolio deletion form
