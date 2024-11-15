@@ -113,7 +113,7 @@ class crypto_coin(object):
         self.quantity = quantity
         self.price = price
         self.current_price = current_price
-        
+
     def __str__(self):
         return (f"Crypto Coin [ID: {self.id}, Symbol: {self.symbol}, Name: {self.name}, "
                 f"Quantity: {self.quantity}, Purchase Price: ${self.price:.2f}, "
@@ -205,12 +205,6 @@ def portfolio():
     if not portfolios:
         return redirect(f"/create_portfolio")
     
-    if request.args.get("tr") == "1":
-        entries = []
-        for portfolio in portfolios:
-            entries += get_portfolio_entries(portfolio["id"])
-        return render_template("transactions.html", entries=entries)
-
     if request.args.get("folioid") == None:
         portfolio_id = -1
     else:
@@ -218,6 +212,15 @@ def portfolio():
             portfolio_id = int(request.args.get("folioid"))
         except Exception as e:
             return apology("Error. Please send help.", 500)
+        
+    if request.args.get("tr") == "1":
+        if portfolio_id > 0:
+            entries = get_portfolio_entries(portfolio_id)
+            return render_template("transactions.html", entries=entries)
+        entries = []
+        for portfolio in portfolios:
+            entries += get_portfolio_entries(portfolio["id"])
+        return render_template("transactions.html", entries=entries)
 
     if portfolio_id == -1:
         coinlist = generate_coin_list_for_overview(portfolios)
