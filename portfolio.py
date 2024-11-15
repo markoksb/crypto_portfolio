@@ -113,6 +113,11 @@ class crypto_coin(object):
         self.quantity = quantity
         self.price = price
         self.current_price = current_price
+        
+    def __str__(self):
+        return (f"Crypto Coin [ID: {self.id}, Symbol: {self.symbol}, Name: {self.name}, "
+                f"Quantity: {self.quantity}, Purchase Price: ${self.price:.2f}, "
+                f"Current Price: ${self.current_price:.2f}]")
 
 
 def get_portfolio_entries(portfolio_id: int) -> list:
