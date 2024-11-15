@@ -140,8 +140,12 @@
     </table>
 </div>
 <br>
-<a class="mango" href="/coin_add?folioid={{portfolio_id}}">add currency</a>&nbsp;&nbsp;|&nbsp;
-<a class="mango" href="/portfolio?tr=1">show transactions</a>
+    {% if portfolio_id != -1 %}
+    <a class="mango" href="/coin_add?folioid={{portfolio_id}}">add currency</a>&nbsp;&nbsp;|&nbsp;
+    <a class="mango" href="/portfolio?folioid={{portfolio_id}}&tr=1">show transactions</a>
+    {% else %}
+    <a class="mango" href="/portfolio?tr=1">show transactions</a>
+    {% endif %}
 
 {% endif %}
 {% endblock %}
