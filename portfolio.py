@@ -130,14 +130,13 @@ def generate_coin_list_for_portfolio(portfolio_id: int, coin_list: list = None) 
     """generates a list of coins from the database entries made to the given portfolio"""
     if coin_list == None:
         coin_list = []
-    list_of_purchases = get_portfolio_entries(portfolio_id)
-    for entry in list_of_purchases:
+    list_of_entries = get_portfolio_entries(portfolio_id)
+    for entry in list_of_entries:
         exists = False
         for coin in coin_list:
             if coin.id == entry["id"]:
-                if int(entry["quantity"]) < 0:
+                if entry["quantity"] < 0:
                     combined_quantity = coin.quantity + entry["quantity"]
-                    
                 else:
                     combined_quantity = coin.quantity + entry["quantity"]
                     coin.price = (coin.price * coin.quantity + entry["price"] * entry["quantity"]) / combined_quantity
