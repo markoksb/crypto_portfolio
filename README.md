@@ -1,5 +1,5 @@
 # Cryptofolio
-#### Video Demo TODO
+#### Video Demo [https://youtu.be/H3i6Lpt2MLk](https://youtu.be/H3i6Lpt2MLk)
 #### Description
 Cryptofolio: My CS50 2024 Final Project.
 Cryptocurrency trading across multiple exchanges makes it challenging to track performance in a unified way. With coins often distributed across different exchanges and wallets, keeping track of them all can be confusing and may lead to missed opportunities.
