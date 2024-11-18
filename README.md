@@ -1,7 +1,7 @@
 # Cryptofolio
 #### Video Demo [https://youtu.be/H3i6Lpt2MLk](https://youtu.be/H3i6Lpt2MLk)
 #### Description
-Cryptofolio: My CS50 2024 Final Project.
+Cryptofolio: My CS50 2024 Final Project. -- Continuation of the project at [https://github.com/markoksb/cryptofolio](https://github.com/markoksb/cryptofolio)<br>
 Cryptocurrency trading across multiple exchanges makes it challenging to track performance in a unified way. With coins often distributed across different exchanges and wallets, keeping track of them all can be confusing and may lead to missed opportunities.
 I aimed to create an app to simplify tracking of cryptocurrencies across various platforms by aggregating data and providing real-time insights.<br>
 For that reason, one can create multiple independent portfolios and add transactions to them. The app keeps track of profits and losses on a currency, portfolio, and user level.<br>
